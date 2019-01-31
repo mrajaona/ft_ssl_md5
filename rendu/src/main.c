@@ -1,9 +1,9 @@
-#include "ft_ssl.h"
+#include "parser.h"
 
 int	main(int ac, char **av) {
 	if (ac == 1)
 	{
-		ft_usage();
+		ft_print(USAGE);
 		return (0);
 	}
 	ft_ssl_parse_args((const int)ac, (const char **)av);

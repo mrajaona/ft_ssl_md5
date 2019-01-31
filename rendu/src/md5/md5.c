@@ -1,6 +1,7 @@
 #include "md5.h"
 
-void ft_md5(t_params *params)
+char	*ft_md5(t_params *params, const char *src)
 {
-	(void)params;
+	(void)params; (void)src;
+	return ("md5 !");
 }

@@ -20,7 +20,10 @@ void	ft_printerr(const char *str)
 
 }
 
-void	ft_usage( void )
+void	ft_print_checksum(const char *checksum, t_params *params)
 {
-	ft_print(USAGE);
+	(void)params;
+	if (checksum == NULL)
+		return ;
+	ft_print(checksum);
 }

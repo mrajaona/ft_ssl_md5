@@ -1,6 +1,7 @@
 #ifndef OUTPUT_H
 # define OUTPUT_H
 
+# include "ft_ssl.h"
 # include "util.h"
 # include <unistd.h>
 
@@ -20,5 +21,6 @@
 void	ft_usage( void );
 void	ft_print(const char *str);
 void	ft_printerr(const char *str);
+void	ft_print_checksum(const char *str, t_params *params);
 
 #endif

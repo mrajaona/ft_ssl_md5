@@ -1,4 +1,4 @@
-#include "ft_ssl.h"
+#include "parser.h"
 
 static void set_opt(const char opt, t_params *params)
 {
@@ -14,17 +14,16 @@ static void set_opt(const char opt, t_params *params)
 
 static bool check_opts(const int ac, const char **av, t_params *params)
 {
-	int i;
 	unsigned int j;
 
-	i = 2;
-	while (i < ac && av[i][0] == '-')
+	params->pos = 2;
+	while (params->pos < ac && av[params->pos][0] == '-')
 	{
 		j = 1;
-		while (av[i][j])
+		while (av[params->pos][j])
 		{
-			if (OPT(av[i][j]))
-				set_opt(av[i][j], params);
+			if (OPT(av[params->pos][j]))
+				set_opt(av[params->pos][j], params);
 			else
 			{
 				ft_printerr(ERR_FLAG);
@@ -32,7 +31,7 @@ static bool check_opts(const int ac, const char **av, t_params *params)
 			}
 			j++;
 		}
-		i++;
+		params->pos++;
 	}
 	return (TRUE);
 }
@@ -71,7 +70,7 @@ static void init_params(t_params *params)
 	params->opt_s = FALSE;
 }
 
-static void init_cmd_list(void (** list)(t_params *))
+static void init_cmd_list(char *(** list)(t_params *, const char *))
 {
 	list[N_MD5] = ft_md5;
 	list[N_SHA256] = ft_sha256;
@@ -80,7 +79,8 @@ static void init_cmd_list(void (** list)(t_params *))
 void ft_ssl_parse_args(const int ac, const char **av)
 {
 	t_params	params;
-	void 		(*list[N_CMDS])(t_params *);
+	char		*(*list[N_CMDS])(t_params *, const char *);
+	char		*checksum;
 
 	init_params(&params);
 	init_cmd_list(list);
@@ -89,5 +89,10 @@ void ft_ssl_parse_args(const int ac, const char **av)
 		|| params.algo < 0
 		|| params.algo >= N_CMDS)
 		return ;
-	list[params.algo](&params);
+	while (params.pos < ac)
+	{
+		checksum = list[params.algo](&params, av[params.pos]);
+		ft_print_checksum(checksum, &params);
+		params.pos++;
+	}
 }

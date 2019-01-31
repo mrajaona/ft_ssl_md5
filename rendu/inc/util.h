@@ -16,7 +16,7 @@
 */
 
 size_t	ft_strlen(const char *str);
-int	ft_strcmp(const char *s1, const char *s2);
-int	get_next_line(int const fd, char **line);
+int		ft_strcmp(const char *s1, const char *s2);
+int		get_next_line(int const fd, char **line);
 
 #endif

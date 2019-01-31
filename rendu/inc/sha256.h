@@ -1,12 +1,12 @@
 #ifndef SHA256_H
 # define SHA256_H
 
-# include "params.h"
+# include "ft_ssl.h"
 
 /*
 **	Functions
 */
 
-void ft_sha256(t_params *params);
+char	*ft_sha256(t_params *params, const char *src);
 
 #endif

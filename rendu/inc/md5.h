@@ -1,12 +1,12 @@
 #ifndef MD5_H
 # define MD5_H
 
-# include "params.h"
+# include "ft_ssl.h"
 
 /*
 **	Functions
 */
 
-void ft_md5(t_params *params);
+char	*ft_md5(t_params *params, const char *src);
 
 #endif
