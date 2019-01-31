@@ -92,7 +92,7 @@ void ft_ssl_parse_args(const int ac, const char **av)
 	while (params.pos < ac)
 	{
 		checksum = list[params.algo](&params, av[params.pos]);
-		ft_print_checksum(checksum, &params);
+		ft_print_checksum(checksum, av[params.pos], &params);
 		params.pos++;
 	}
 }

@@ -19,8 +19,8 @@
 */
 
 void	ft_usage( void );
-void	ft_print(const char *str);
+void	ft_print(const char *str, bool endline);
 void	ft_printerr(const char *str);
-void	ft_print_checksum(const char *str, t_params *params);
+void	ft_print_checksum(const char *str, const char *src, t_params *params);
 
 #endif
