@@ -1,0 +1,119 @@
+requirements :
+Makefile, author file
+C, Norm
+
+allowed functions :
+
+open, close, read, write, malloc, free
+
+tolerated if necessary :
+strerror, exit
+
+---------- openssl
+
+executable : ft_ssl
+
+Standard commands :
+	next project ?
+
+Message Digest commands :
+
+options : {
+	-p : echo STDIN to STDOUT and append the checksum to STDOUT
+		 -q and -p do not modifiy output
+		 only applies to STDIN
+		> echo "Do not pity the dead, Harry." | ./ft_ssl md5 -p
+		Do not pity the dead, Harry.
+		2d95365bc44bf0a298e09a3ab7b34d2f
+
+	-q : quiet mode
+		does not print name ?
+
+	-r : reverse the format of the input
+		> ./ft_ssl md5 file
+		MD5 (file) = 53d53ea94217b259c11a5a2d104ec58a
+		> ./ft_ssl md5 -r file
+		53d53ea94217b259c11a5a2d104ec58a file
+
+	-s : print the sum of the given string (first arg is not a file) (applies olny once)
+		> ./ft_ssl md5 -s "pity those that aren't following baerista on spotify."
+		MD5 ("pity those that aren't following baerista on spotify.") = a3c990a1964705d9bf0e602f44572f5f
+		> echo "one more thing" | ./ft_ssl md5 -r -p -s "foo" file -s "bar"
+		one more thing
+		a0bd1876c6f011dd50fae52827f445f5
+		acbd18db4cc2f85cedef654fccc4a4d8 "foo"
+		53d53ea94217b259c11a5a2d104ec58a file
+		ft_ssl: md5: -s: No such file or directory
+		ft_ssl: md5: bar: No such file or directory
+
+
+	no opt	: read/write from/to the console
+}
+
+syntax : {
+	./ft_ssl command [files]
+}
+
+must support : {
+	STDIN
+	STDOUT
+	files
+}
+
+md5 {
+	md5
+	openssl md5
+	./ft_ssl md5
+
+	len : 32 hexadecimal (128 bits) (4 * 32-bit words : A, B, C, D) (4 * 4 bytes)
+	Merkle–Damgård construction (https://en.wikipedia.org/wiki/Merkle%E2%80%93Damg%C3%A5rd_construction)
+
+	MD5("") = d41d8cd98f00b204e9800998ecf8427e
+
+	message padding (bits) :
+		first bit : 1
+		as many 0 necessary to obtain a length up to 64 bits fewer than a multiple of 512
+		64 bits representing the length of the message, modulo 2^64
+	split into 512-bit blocks (16 32-bit words)
+
+	main algorithm :
+		A, B, C, D initialized to predetermined fixed constants
+		for each 512-bit block : modify the state in four rounds
+		each round is composed of 16 similar operations based on a non-linear function F, modular addition, and left rotation
+		avalanche effect
+		{
+			possible functions :
+			values in little-endian
+
+			F(B, C, D) = (B & C) | (~B & D)
+			G(B, C, D) = (B & D) | (C & ~D)
+			H(B, C, D) = B ^ C ^ D
+			I(B, C, D) = C ^ (B | ~D)
+		}
+		{
+			& 	bitwise AND
+			| 	bitwise inclusive OR
+			^ 	bitwise XOR (eXclusive OR)
+			<< 	left shift
+			>> 	right shift
+			~ 	bitwise NOT (one's complement) (unary)
+		}
+}
+
+sha256 {
+	sha256 (man unavailable on macs)
+	openssl sha -256
+	./ft_ssl sha256
+
+	test with shasum
+
+	len : 64
+}
+
+bonus {
+	sha512
+	whirlpool
+}
+
+Cipher commands :
+	next project ?
