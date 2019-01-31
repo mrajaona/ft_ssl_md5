@@ -37,14 +37,21 @@ static bool check_opts(const int ac, const char **av, t_params *params)
 	return (TRUE);
 }
 
+static void init_cmd_name_list(const char **list)
+{
+	list[N_MD5] = MD5;
+	list[N_SHA256] = SHA256;
+}
+
 static bool check_cmd(const char *arg, t_params *params)
 {
-	const char *algo_list[N_ALGO] = {ALGOS};
-	unsigned int i = 0;
+	const char		*list[N_CMDS];
+	unsigned int	i = 0;
 
-	while (i < N_ALGO)
+	init_cmd_name_list(list);
+	while (i < N_CMDS)
 	{
-		if (ft_strcmp(arg, algo_list[i]) == 0)
+		if (ft_strcmp(arg, list[i]) == 0)
 		{
 			params->algo = i;
 			return (TRUE) ;
@@ -64,15 +71,23 @@ static void init_params(t_params *params)
 	params->opt_s = FALSE;
 }
 
+static void init_cmd_list(void (** list)(t_params *))
+{
+	list[N_MD5] = ft_md5;
+	list[N_SHA256] = ft_sha256;
+}
+
 void ft_ssl_parse_args(const int ac, const char **av)
 {
 	t_params	params;
-	init_params(&params);
+	void 		(*list[N_CMDS])(t_params *);
 
-	if (check_cmd(av[1], &params) == FALSE)
+	init_params(&params);
+	init_cmd_list(list);
+	if (check_cmd(av[1], &params) == FALSE
+		|| check_opts(ac, av, &params) == FALSE
+		|| params.algo < 0
+		|| params.algo >= N_CMDS)
 		return ;
-	if (check_opts(ac, av, &params) == FALSE)
-		return ;
-	if (params.algo == -1)
-		return ;
+	list[params.algo](&params);
 }

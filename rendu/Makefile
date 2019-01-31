@@ -2,6 +2,7 @@ NAME		=	ft_ssl
 INCLUDE		=	./inc/
 
 INC			=	ft_ssl.h \
+				params.h \
 				util.h \
 				output.h \
 				md5.h \

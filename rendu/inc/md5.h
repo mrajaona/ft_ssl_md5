@@ -1,7 +1,7 @@
 #ifndef MD5_H
 # define MD5_H
 
-# include "ft_ssl.h"
+# include "params.h"
 
 /*
 **	Functions

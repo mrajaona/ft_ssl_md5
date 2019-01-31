@@ -1,7 +1,7 @@
 #ifndef SHA256_H
 # define SHA256_H
 
-# include "ft_ssl.h"
+# include "params.h"
 
 /*
 **	Functions
