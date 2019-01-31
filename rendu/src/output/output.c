@@ -20,7 +20,7 @@ void	ft_printerr(const char *str)
 
 }
 
-void	ft_usage()
+void	ft_usage( void )
 {
 	ft_print(USAGE);
 }

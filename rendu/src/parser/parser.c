@@ -39,16 +39,14 @@ static bool check_opts(const int ac, const char **av, t_params *params)
 
 static bool check_cmd(const char *arg, t_params *params)
 {
-	char *algo_list[N_ALGO];
+	const char *algo_list[N_ALGO] = {ALGOS};
 	unsigned int i = 0;
 
-	algo_list[0] = MD5;
-	algo_list[1] = SHA256;
 	while (i < N_ALGO)
 	{
 		if (ft_strcmp(arg, algo_list[i]) == 0)
 		{
-			params->algo = algo_list[i];
+			params->algo = i;
 			return (TRUE) ;
 		}
 		i++;
@@ -59,7 +57,7 @@ static bool check_cmd(const char *arg, t_params *params)
 
 static void init_params(t_params *params)
 {
-	params->algo = NULL;
+	params->algo = -1;
 	params->opt_p = FALSE;
 	params->opt_q = FALSE;
 	params->opt_r = FALSE;
@@ -74,5 +72,7 @@ void ft_ssl_parse_args(const int ac, const char **av)
 	if (check_cmd(av[1], &params) == FALSE)
 		return ;
 	if (check_opts(ac, av, &params) == FALSE)
+		return ;
+	if (params.algo == -1)
 		return ;
 }

@@ -9,18 +9,19 @@
 # define OK 0
 # define ERR 1
 
-# define N_ALGO 2
 # define MD5 "md5"
 # define SHA256 "sha256"
+# define ALGOS MD5, SHA256
+# define N_ALGO 2
 
 # define OPT(opt) opt == 'p' || opt == 'q' || opt == 'r' || opt == 's'
 
-typedef int		bool;
-typedef char	byte;
+typedef int			bool;
+typedef char		byte;
 
 typedef struct	s_params
 {
-	char		*algo;
+	int			algo;
 	bool		opt_p;
 	bool		opt_q;
 	bool		opt_r;

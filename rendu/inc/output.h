@@ -17,7 +17,7 @@
 **	Functions
 */
 
-void	ft_usage();
+void	ft_usage( void );
 void	ft_print(const char *str);
 void	ft_printerr(const char *str);
 
