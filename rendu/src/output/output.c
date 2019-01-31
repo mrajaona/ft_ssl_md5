@@ -20,10 +20,28 @@ void	ft_printerr(const char *str)
 
 }
 
+void	ft_print_console(const char *hash, const char *src, t_params *params)
+{
+	if (params->opt_p == TRUE)
+	{
+		ft_print(src, TRUE);
+		return ;
+	}
+	ft_print(hash, TRUE);
+	params->opt_p = FALSE;
+}
+
 void	ft_print_checksum(const char *hash, const char *src, t_params *params)
 {
 	(void)params; (void)src;
 	if (hash == NULL)
 		return ;
-	ft_print(hash, TRUE);
+	if (params->opt_q == TRUE)
+	{
+		ft_print(hash, TRUE);
+		return ;
+	}
+	if (params->opt_s == TRUE)
+		params->opt_s = FALSE;
+	ft_print("debug", TRUE);
 }

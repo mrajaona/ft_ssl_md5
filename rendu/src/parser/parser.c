@@ -61,38 +61,11 @@ static bool check_cmd(const char *arg, t_params *params)
 	return (FALSE);
 }
 
-static void init_params(t_params *params)
+void ft_ssl_parse_args(const int ac, const char **av, t_params *params)
 {
-	params->algo = -1;
-	params->opt_p = FALSE;
-	params->opt_q = FALSE;
-	params->opt_r = FALSE;
-	params->opt_s = FALSE;
-}
-
-static void init_cmd_list(char *(** list)(t_params *, const char *))
-{
-	list[N_MD5] = ft_md5;
-	list[N_SHA256] = ft_sha256;
-}
-
-void ft_ssl_parse_args(const int ac, const char **av)
-{
-	t_params	params;
-	char		*(*list[N_CMDS])(t_params *, const char *);
-	char		*checksum;
-
-	init_params(&params);
-	init_cmd_list(list);
-	if (check_cmd(av[1], &params) == FALSE
-		|| check_opts(ac, av, &params) == FALSE
-		|| params.algo < 0
-		|| params.algo >= N_CMDS)
+	if (check_cmd(av[1], params) == FALSE
+		|| check_opts(ac, av, params) == FALSE
+		|| params->algo < 0
+		|| params->algo >= N_CMDS)
 		return ;
-	while (params.pos < ac)
-	{
-		checksum = list[params.algo](&params, av[params.pos]);
-		ft_print_checksum(checksum, av[params.pos], &params);
-		params.pos++;
-	}
 }
