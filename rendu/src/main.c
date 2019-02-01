@@ -1,4 +1,5 @@
 #include "parser.h"
+#include "input.h"
 #include "output.h"
 
 static void init_params(t_params *params)
@@ -18,13 +19,6 @@ static void init_cmd_list(char *(** list)(t_params *, const char *))
 	list[N_SHA256] = ft_sha256;
 }
 
-
-static char *ft_read_stdin( void )
-{
-	// TODO
-	return ( NULL );
-}
-
 static void ft_get_checksums(const int ac, const char **av, t_params *params)
 {
 	char		*checksum;
@@ -37,7 +31,7 @@ static void ft_get_checksums(const int ac, const char **av, t_params *params)
 		ft_printerr(ERR_OPT_S);
 		return ;
 	}
-	if (params->pos == ac || params->opt_p == TRUE)
+	if (params->pos == ac || params->stdin == TRUE)
 	{
 		params->stdin = TRUE;
 		src = ft_read_stdin();

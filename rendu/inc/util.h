@@ -3,13 +3,14 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdio.h>
 
 /*
 **	GNL
 */
 
 # define BUFFER_SIZE 4096
-# define DEL '\n'
+# define DEL EOF
 
 /*
 **	Functions

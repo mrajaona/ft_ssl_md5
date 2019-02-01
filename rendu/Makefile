@@ -4,6 +4,7 @@ INCLUDE		=	./inc/
 INC			=	ft_ssl.h \
 				util.h \
 				parser.h \
+				input.h \
 				output.h \
 				md5.h \
 				sha256.h
@@ -23,6 +24,10 @@ DIR_PARSER	=	./src/parser/
 SRC_PARSER	=	parser.c
 SRCS_PARSER	=	$(addprefix $(DIR_PARSER), $(SRC_PARSER))
 
+DIR_INPUT	=	./src/input/
+SRC_INPUT	=	input.c
+SRCS_INPUT	=	$(addprefix $(DIR_INPUT), $(SRC_INPUT))
+
 DIR_OUTPUT	=	./src/output/
 SRC_OUTPUT	=	output.c
 SRCS_OUTPUT	=	$(addprefix $(DIR_OUTPUT), $(SRC_OUTPUT))
@@ -38,6 +43,7 @@ SRCS_SHA256	=	$(addprefix $(DIR_SHA256), $(SRC_SHA256))
 SRCS		=	$(SRCS_MAIN) \
 				$(SRCS_UTIL) \
 				$(SRCS_PARSER)\
+				$(SRCS_INPUT) \
 				$(SRCS_OUTPUT) \
  				$(SRCS_MD5) \
 				$(SRCS_SHA256)
