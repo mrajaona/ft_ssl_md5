@@ -3,7 +3,9 @@
 
 static void init_params(t_params *params)
 {
+	params->pos = -1;
 	params->algo = -1;
+	params->stdin = FALSE;
 	params->opt_p = FALSE;
 	params->opt_q = FALSE;
 	params->opt_r = FALSE;
@@ -37,9 +39,10 @@ static void ft_get_checksums(const int ac, const char **av, t_params *params)
 	}
 	if (params->pos == ac || params->opt_p == TRUE)
 	{
+		params->stdin = TRUE;
 		src = ft_read_stdin();
 		checksum = list[params->algo](params, src);
-		ft_print_console(checksum, src, params);
+		ft_print_checksum(checksum, src, params);
 	}
 	while (params->pos < ac)
 	{

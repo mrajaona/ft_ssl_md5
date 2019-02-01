@@ -3,7 +3,10 @@
 static void set_opt(const char opt, t_params *params)
 {
 	if (opt == 'p')
+	{
 		params->opt_p = TRUE;
+		params->stdin = TRUE;
+	}
 	else if (opt == 'q')
 		params->opt_q = TRUE;
 	else if (opt == 'r')
