@@ -21,7 +21,7 @@ typedef struct	s_params
 typedef struct	s_cmd
 {
 	char		*name;
-	char		*(*fn)(t_params *, const char *);
+	char		*(*fn)(const char *);
 }				t_cmd;
 
 #endif

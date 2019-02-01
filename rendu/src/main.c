@@ -19,7 +19,7 @@ static void	ft_checksum(char *file, char *src, t_params *params, t_cmd *cmd)
 {
 	char		*checksum;
 
-	checksum = cmd->fn(params, src);
+	checksum = cmd->fn(src);
 	ft_print_hash(checksum, file == NULL ? src : file, params, cmd);
 	if (params->stdin == TRUE || params->opt_s == FALSE)
 		free(src);

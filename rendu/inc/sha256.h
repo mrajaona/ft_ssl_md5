@@ -7,6 +7,6 @@
 **	Functions
 */
 
-char	*ft_sha256(t_params *params, const char *src);
+char	*ft_sha256(const char *src);
 
 #endif

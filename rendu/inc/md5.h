@@ -7,6 +7,6 @@
 **	Functions
 */
 
-char	*ft_md5(t_params *params, const char *src);
+char	*ft_md5(const char *src);
 
 #endif
