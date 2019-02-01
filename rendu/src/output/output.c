@@ -19,12 +19,6 @@ void	ft_printerr(const char *str)
 	write(STDERR, "\n", 1);
 }
 
-static void init_cmd_name_list(const char **list)
-{
-	list[N_MD5] = MD5_MAJ;
-	list[N_SHA256] = SHA256_MAJ;
-}
-
 static void print_opt_p(const char *hash, const char *src, t_params *params)
 {
 	ft_print(src, TRUE);
@@ -47,14 +41,10 @@ static void print_opt_r(const char *hash, const char *src, t_params *params)
 		ft_print(src, TRUE);
 }
 
-static void print_no_opt(const char *hash, const char *src, t_params *params)
+static void print_no_opt(const char *hash, const char *src,
+	t_params *params, t_cmd *cmd)
 {
-	const char	*list[N_CMDS];
-	const char	*cmd;
-
-	init_cmd_name_list(list);
-	cmd = list[params->algo];
-	ft_print(cmd, FALSE);
+	ft_print((const char *)cmd->name, FALSE);
 	ft_print(params->stdin == FALSE
 		&& params->opt_s == TRUE ? " (\"" : " (", FALSE);
 	ft_print(src, FALSE);
@@ -63,7 +53,8 @@ static void print_no_opt(const char *hash, const char *src, t_params *params)
 	ft_print(hash, TRUE);
 }
 
-void	ft_print_checksum(const char *hash, const char *src, t_params *params)
+void	ft_print_hash(const char *hash, const char *src,
+	t_params *params, t_cmd *cmd)
 {
 	if (hash == NULL || src == NULL || params == NULL)
 		return ;
@@ -77,6 +68,5 @@ void	ft_print_checksum(const char *hash, const char *src, t_params *params)
 	else if (params->opt_r == TRUE)
 		print_opt_r(hash, src, params);
 	else
-		print_no_opt(hash, src, params);
-	params->opt_s = FALSE;
+		print_no_opt(hash, src, params, cmd);
 }

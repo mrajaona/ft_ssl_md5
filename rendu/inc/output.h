@@ -21,7 +21,7 @@
 void	ft_usage( void );
 void	ft_print(const char *str, bool endline);
 void	ft_printerr(const char *str);
-void	ft_print_console(const char *hash, const char *src, t_params *params);
-void	ft_print_checksum(const char *str, const char *src, t_params *params);
+void	ft_print_console(const char *hash, const char *src, t_params *p);
+void	ft_print_hash(const char *str, const char *src, t_params *p, t_cmd *c);
 
 #endif

@@ -40,23 +40,27 @@ static bool check_opts(const int ac, const char **av, t_params *params)
 	return (TRUE);
 }
 
-static void init_cmd_name_list(const char **list)
+static void init_lists(t_cmd *cmd_list)
 {
-	list[N_MD5] = MD5;
-	list[N_SHA256] = SHA256;
+	cmd_list[0].name = MD5;
+	cmd_list[0].fn = ft_md5;
+	cmd_list[1].name = SHA256;
+	cmd_list[1].fn = ft_sha256;
 }
 
-static bool check_cmd(const char *arg, t_params *params)
+static bool check_cmd(const char *arg, t_cmd *cmd)
 {
-	const char		*list[N_CMDS];
-	unsigned int	i = 0;
+	t_cmd			cmd_list[N_CMDS];
+	unsigned int	i;
 
-	init_cmd_name_list(list);
+	init_lists(cmd_list);
+	i = 0;
 	while (i < N_CMDS)
 	{
-		if (ft_strcmp(arg, list[i]) == 0)
+		if (ft_strcmp(arg, cmd_list[i].name) == 0)
 		{
-			params->algo = i;
+			cmd->name = cmd_list[i].name;
+			cmd->fn = cmd_list[i].fn;
 			return (TRUE) ;
 		}
 		i++;
@@ -65,11 +69,12 @@ static bool check_cmd(const char *arg, t_params *params)
 	return (FALSE);
 }
 
-void ft_ssl_parse_args(const int ac, const char **av, t_params *params)
+void ft_ssl_parse(const int ac, const char **av,
+	t_params *params, t_cmd *cmd)
 {
-	if (check_cmd(av[1], params) == FALSE
+	if (check_cmd(av[1], cmd) == FALSE
 		|| check_opts(ac, av, params) == FALSE
-		|| params->algo < 0
-		|| params->algo >= N_CMDS)
+		|| cmd->name == NULL
+		|| cmd->fn == NULL)
 		return ;
 }

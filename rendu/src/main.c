@@ -2,30 +2,34 @@
 #include "input.h"
 #include "output.h"
 
-static void init_params(t_params *params)
+static void init_params(t_params *params, t_cmd *cmd)
 {
 	params->pos = -1;
-	params->algo = -1;
 	params->stdin = FALSE;
 	params->opt_p = FALSE;
 	params->opt_q = FALSE;
 	params->opt_r = FALSE;
 	params->opt_s = FALSE;
+	cmd->name = NULL;
+	cmd->fn = NULL;
 }
 
-static void init_cmd_list(char *(** list)(t_params *, const char *))
-{
-	list[N_MD5] = ft_md5;
-	list[N_SHA256] = ft_sha256;
-}
 
-static void ft_get_checksums(const int ac, const char **av, t_params *params)
+static void	ft_checksum(char *file, char *src, t_params *params, t_cmd *cmd)
 {
 	char		*checksum;
-	char		*src;
-	char		*(*list[N_CMDS])(t_params *, const char *);
 
-	init_cmd_list(list);
+	checksum = cmd->fn(params, src);
+	ft_print_hash(checksum, file == NULL ? src : file, params, cmd);
+	if (params->stdin == TRUE || params->opt_s == FALSE)
+		free(src);
+}
+
+static void ft_get_checksums(const int ac, char **av,
+	t_params *params, t_cmd *cmd)
+{
+	char		*src;
+
 	if (params->pos == ac && params->opt_s == TRUE)
 	{
 		ft_printerr(ERR_OPT_S);
@@ -33,29 +37,31 @@ static void ft_get_checksums(const int ac, const char **av, t_params *params)
 	}
 	if (params->pos == ac || params->stdin == TRUE)
 	{
-		params->stdin = TRUE;
 		src = ft_read_stdin();
-		checksum = list[params->algo](params, src);
-		ft_print_checksum(checksum, src, params);
+		ft_checksum(NULL, src, params, cmd);
+		params->stdin = FALSE;
 	}
 	while (params->pos < ac)
 	{
-		checksum = list[params->algo](params, av[params->pos]);
-		ft_print_checksum(checksum, av[params->pos], params);
+		src = params->opt_s == TRUE
+			? av[params->pos] : ft_read_file(av[params->pos]);
+        ft_checksum(av[params->pos], src, params, cmd);
+        params->opt_s = FALSE;
 		params->pos++;
 	}
 }
 
 int	main(int ac, char **av) {
 	t_params	params;
+	t_cmd		cmd;
 
 	if (ac == 1)
 	{
 		ft_print(USAGE, TRUE);
 		return (0);
 	}
-	init_params(&params);
-	ft_ssl_parse_args((const int)ac, (const char **)av, &params);
-	ft_get_checksums((const int)ac, (const char **)av, &params);
+	init_params(&params, &cmd);
+	ft_ssl_parse((const int)ac, (const char **)av, &params, &cmd);
+	ft_get_checksums((const int)ac, av, &params, &cmd);
 	return (0);
 }
