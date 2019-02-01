@@ -12,8 +12,6 @@ typedef char	byte;
 # define TRUE 1
 # define FALSE 0
 
-# define OPT(opt) opt == 'p' || opt == 'q' || opt == 'r' || opt == 's'
-
 /*
 **	Functions
 */

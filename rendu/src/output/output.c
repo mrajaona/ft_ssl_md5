@@ -17,7 +17,6 @@ void	ft_printerr(const char *str)
 	else
 		write(STDERR, NULLSTR, ft_strlen(NULLSTR));
 	write(STDERR, "\n", 1);
-
 }
 
 static void init_cmd_name_list(const char **list)

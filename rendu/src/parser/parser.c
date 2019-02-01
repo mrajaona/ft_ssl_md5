@@ -25,7 +25,8 @@ static bool check_opts(const int ac, const char **av, t_params *params)
 		j = 1;
 		while (av[params->pos][j])
 		{
-			if (OPT(av[params->pos][j]))
+			if (av[params->pos][j] == 'p' || av[params->pos][j] == 'q'
+				|| av[params->pos][j] == 'r' || av[params->pos][j] == 's')
 				set_opt(av[params->pos][j], params);
 			else
 			{
