@@ -42,9 +42,9 @@ static bool check_opts(const int ac, const char **av, t_params *params)
 
 static void init_lists(t_cmd *cmd_list)
 {
-	cmd_list[0].name = MD5;
+	cmd_list[0].name = "md5";
 	cmd_list[0].fn = ft_md5;
-	cmd_list[1].name = SHA256;
+	cmd_list[1].name = "sha256";
 	cmd_list[1].fn = ft_sha256;
 }
 

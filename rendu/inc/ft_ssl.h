@@ -1,14 +1,10 @@
 #ifndef FT_SSL_H
 # define FT_SSL_H
 
-typedef char	byte;
-
 # define TRUE 1
 # define FALSE 0
 
 # define N_CMDS 2
-# define MD5 "md5"
-# define SHA256 "sha256"
 
 typedef int		bool;
 
