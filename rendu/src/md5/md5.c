@@ -8,6 +8,7 @@
 ** check little/big endian
 */
 
+/*
 static unsigned long	F(unsigned long B, unsigned long C, unsigned long D)
 {
 	return ((B & C) | (~B & D));
@@ -24,64 +25,35 @@ static unsigned long	I(unsigned long B, unsigned long C, unsigned long D)
 {
 	return (C ^ (B | ~D));
 }
+*/
 
-static t_block		*ft_new(unsigned long *data)
-{
-	t_block	*new_elem;
-
-	if ((new_elem = malloc(sizeof(t_block))) == NULL)
-		return (NULL);
-	new_elem->next = NULL;
-	new_elem->block = data;
-	return (new_elem);
-}
-
-static void	init_blocks(t_block **list, const char *src)
-{
-	const char		*tmp;
-	unsigned int	i;
-	size_t			len;
-	char			buf[64];
-
-	tmp = src;
-	len = 0;
-	while (*tmp)
-	{
-		i = 0;
-		while (i < 64 && *tmp)
-		{
-			buf[i] = *tmp;
-			i++;
-			tmp++;
-		}
-
-		// TODO : Padding
-
-	}
-}
-
-static e_endian check_endian( void )
+static enum e_endian check_endian( void )
 {
    unsigned int	i;
    char			*c;
 
    i = 1;
-   c = (char *)&i
+   c = (char *)&i;
    return (*c ? little : big);
+}
+
+void	md5init(t_md5 *context, const char *src)
+{
+	context->endian = check_endian();
+	context->len = ft_strlen(src);
+    context->hash[0] = 0x67452301;
+    context->hash[1] = 0xefcdab89;
+    context->hash[2] = 0x98badcfe;
+    context->hash[3] = 0x10325476;
+	context->bits[0] = 0;
+	context->bits[1] = 1;
 }
 
 char	*ft_md5(const char *src)
 {
 	t_md5	context;
 
-    context.endian = check_endian();
-    context.hash[0] = 0x67452301;
-    context.hash[1] = 0xefcdab89;
-    context.hash[2] = 0x98badcfe;
-    context.hash[3] = 0x10325476;
-    context.blocks = NULL;
-    init_blocks(&(context.blocks), src);
-
+	md5init(&context, src);
 	return ("md5 !");
 }
 
