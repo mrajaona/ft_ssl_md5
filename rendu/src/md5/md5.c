@@ -8,28 +8,35 @@
 ** check little/big endian
 */
 
-static void uiToByte(unsigned int i, char *buf)
+static void ullToByte(unsigned long long size, char *buf) // TODO : check unsigned long = 64 bits
 {
-	buf[0] = (unsigned char)((i >> 24) & 0xff);
-	buf[1] = (unsigned char)((i >> 16) & 0xff);
-	buf[2] = (unsigned char)((i >> 8)  & 0xff);
-	buf[3] = (unsigned char)(i & 0xff);
+	int	i;
+	int	shift;
+
+	i = 0;
+	shift = 7 * 8;
+	while (i < 8)
+	{
+		buf[i] = (unsigned char)((size >> shift) & 0xff);
+		shift -= 8;
+		i++;
+	}
 }
 
 /*
-static unsigned long	F(unsigned long B, unsigned long C, unsigned long D)
+static unsigned long	ft_f(unsigned long B, unsigned long C, unsigned long D)
 {
 	return ((B & C) | (~B & D));
 }
-static unsigned long	G(unsigned long B, unsigned long C, unsigned long D)
+static unsigned long	ft_g(unsigned long B, unsigned long C, unsigned long D)
 {
 	return ((B & D) | (C & ~D));
 }
-static unsigned long	H(unsigned long B, unsigned long C, unsigned long D)
+static unsigned long	ft_h(unsigned long B, unsigned long C, unsigned long D)
 {
 	return (B ^ C ^ D);
 }
-static unsigned long	I(unsigned long B, unsigned long C, unsigned long D)
+static unsigned long	ft_i(unsigned long B, unsigned long C, unsigned long D)
 {
 	return (C ^ (B | ~D));
 }
@@ -37,9 +44,9 @@ static unsigned long	I(unsigned long B, unsigned long C, unsigned long D)
 
 void					ft_pad_src(char **padded, const char *src, size_t len)
 {
-	size_t			padded_len; // in bytes
-	size_t			i;
-	unsigned int	bits;
+	size_t				padded_len; // in bytes
+	size_t				i;
+	unsigned long long	bits;
 
 	padded_len = len + 1 + 8; // 1 bit for padding init && 64 bits for len
 	while (padded_len % 64 != 0) // % 512 bits
@@ -51,9 +58,8 @@ void					ft_pad_src(char **padded, const char *src, size_t len)
 	i = len;
 	*padded[i] = (1 << 7);
 	i = padded_len - 8;
-	bits = (unsigned int)len * 8;
-	uiToByte(bits & 0xffffffff, *padded + i);
-	uiToByte(bits << 8 & 0xffffffff, *padded + i + 4);
+	bits = len * 8;
+	ullToByte(bits, *padded + i);
 }
 
 static enum e_endian	check_endian( void )
