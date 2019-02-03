@@ -15,7 +15,7 @@ typedef struct			s_md5
 {
 	size_t				len;
 	char				*src;
-	unsigned int		n_chunks;
+	size_t		n_chunks;
 	unsigned int		hash[4];
 }						t_md5;
 

@@ -112,8 +112,8 @@ static void calculate(t_md5 *context)
 {
 	t_calc			calc;
 	unsigned int	tmp;
-	unsigned int	i;
-	unsigned int	j;
+	size_t	i;
+	size_t	j;
 
 	calc.chunk = context->src;
 	i = 0;
@@ -156,9 +156,9 @@ static void calculate(t_md5 *context)
 
 static void				ft_pad_src(t_md5 *context, const char *src)
 {
-	size_t				padded_len; // in bytes
-	size_t				i;
-	unsigned int		bits;
+	size_t	padded_len; // in bytes
+	size_t	i;
+	size_t	bits;
 
 	padded_len = context->len + 1 + 8; // 1 bit for padding init && 64 bits for len
 	while (padded_len % 64 != 0) // % 512 bits
@@ -189,8 +189,8 @@ static char	*tostr(unsigned int hash[4])
 {
 	char	*str;
 	char	*s;
-	unsigned int	h;
-	unsigned int	i;
+	size_t	h;
+	size_t	i;
 
 	str = ft_memalloc(32 + 1);
 	if (str == NULL)
