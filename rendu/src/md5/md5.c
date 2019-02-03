@@ -8,7 +8,7 @@
 ** check little/big endian
 */
 
-#include <stdio.h> // DEBUG
+// #include <stdio.h> // DEBUG
 
 const unsigned int md5_const_table[64] = {
 	//f
@@ -242,6 +242,6 @@ char	*ft_md5(const char *src)
 		return (NULL);
 	calculate(&context);
 	ft_strdel(&context.src);
-	printf("%0x %0x %0x %0x\n", context.hash[0], context.hash[1], context.hash[2], context.hash[3]); // DEBUG
+	// printf("%0x %0x %0x %0x\n", context.hash[0], context.hash[1], context.hash[2], context.hash[3]); // DEBUG
 	return (tostr(context.hash));
 }
