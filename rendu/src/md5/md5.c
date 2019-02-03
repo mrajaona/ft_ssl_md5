@@ -27,7 +27,23 @@ static unsigned long	I(unsigned long B, unsigned long C, unsigned long D)
 }
 */
 
-static enum e_endian check_endian( void )
+void					ft_pad_src(char **padded, const char *src, size_t len)
+{
+	size_t	padded_len; // in bytes
+	size_t	i;
+
+	padded_len = len + 1 + 64; // 1 bit for padding init && 64 bits for len
+	while (padded_len % 64 != 0) // % 512 bits
+		padded_len++;
+	*padded = ft_memalloc(padded_len);
+	if (*padded == NULL)
+		return ; // TODO : Error
+	ft_strcpy(src, padded);
+	i = len;
+	*padded[i] = (1 << 7);
+}
+
+static enum e_endian	check_endian( void )
 {
    unsigned int	i;
    char			*c;
@@ -41,6 +57,8 @@ void	md5init(t_md5 *context, const char *src)
 {
 	context->endian = check_endian();
 	context->len = ft_strlen(src);
+	context->src = NULL;
+	ft_pad_src(&context->src, src, context->len); // TODO : check NULL
     context->hash[0] = 0x67452301;
     context->hash[1] = 0xefcdab89;
     context->hash[2] = 0x98badcfe;

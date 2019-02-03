@@ -17,6 +17,9 @@ SRCS_MAIN	=	$(addprefix $(DIR_MAIN), $(SRC_MAIN))
 DIR_UTIL	=	./src/util/
 SRC_UTIL	=	ft_strlen.c \
 				ft_strcmp.c \
+				ft_strcpy.c \
+				ft_strdel.c \
+				ft_memalloc.c \
 				get_next_line.c
 SRCS_UTIL	=	$(addprefix $(DIR_UTIL), $(SRC_UTIL))
 
