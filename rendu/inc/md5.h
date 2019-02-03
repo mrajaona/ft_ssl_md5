@@ -17,8 +17,18 @@ typedef struct			s_md5
 	size_t				len;
 	char				*src;
 	unsigned int		n_chunks;
-	unsigned long		hash[4];
+	unsigned int		hash[4];
 }						t_md5;
+
+typedef struct			s_calc
+{
+	char				*chunk;
+	unsigned int		word;
+	unsigned int		a;
+	unsigned int		b;
+	unsigned int		c;
+	unsigned int		d;
+}						t_calc;
 
 /*
 **	Functions

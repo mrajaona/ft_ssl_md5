@@ -8,7 +8,9 @@
 ** check little/big endian
 */
 
-const int md5_const_table[64] = {
+#include <stdio.h> // DEBUG
+
+const unsigned int md5_const_table[64] = {
 	//f
 	0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee,
 	0xf57c0faf, 0x4787c62a, 0xa8304613, 0xfd469501,
@@ -31,118 +33,132 @@ const int md5_const_table[64] = {
 	0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391,
 };
 
-static unsigned long	ft_f(unsigned long b, unsigned long c, unsigned long d)
+const unsigned int md5_const_f[4] = {7, 12, 17, 22};
+const unsigned int md5_const_g[4] = {5, 9, 14, 20};
+const unsigned int md5_const_h[4] = {4, 11, 16, 23};
+const unsigned int md5_const_i[4] = {6, 10, 15, 21};
+
+static unsigned int	ft_shift(unsigned int to_shift, unsigned int amount)
 {
-	return ((b & c) | (~b & d));
+	unsigned int a;
+	unsigned int b;
+
+	a = to_shift << amount;
+	b = to_shift >> (32 - amount);
+	return (a | b);
 }
-static unsigned long	ft_g(unsigned long b, unsigned long c, unsigned long d)
+
+static unsigned int	ft_round_f(t_calc *calc, unsigned int j)
 {
-	return ((b & d) | (c & ~d));
+	unsigned int	w;
+	unsigned int	ret;
+
+	w = (1 * j + 0) % 16;
+	calc->word = *((unsigned int *)(calc->chunk) + w);
+
+	ret = (calc->b & calc->c) | (~(calc->b) & calc->d);
+	ret = ft_shift(ret + calc->a + md5_const_table[j] + calc->word, md5_const_f[j % 4]);
+	ret = calc->b + ret;
+
+	return (ret);
 }
-static unsigned long	ft_h(unsigned long b, unsigned long c, unsigned long d)
+
+static unsigned int	ft_round_g(t_calc *calc, unsigned int j)
 {
-	return (b ^ c ^ d);
+	unsigned int	w;
+	unsigned int	ret;
+
+	w = (5 * j + 1) % 16;
+	calc->word = *((unsigned int *)(calc->chunk) + w);
+
+	ret = (calc->d & calc->b) | (~(calc->d) & calc->c);
+	ret = ft_shift(ret + calc->a + md5_const_table[j] + calc->word, md5_const_g[j % 4]);
+	ret = calc->b + ret;
+
+	return (ret);
 }
-static unsigned long	ft_i(unsigned long b, unsigned long c, unsigned long d)
+
+static unsigned int	ft_round_h(t_calc *calc, unsigned int j)
 {
-	return (c ^ (b | ~d));
+	unsigned int	w;
+	unsigned int	ret;
+
+	w = (3 * j + 5) % 16;
+	calc->word = *((unsigned int *)(calc->chunk) + w);
+
+	ret = (calc->b ^ calc->c ^ calc->d);
+	ret = ft_shift(ret + calc->a + md5_const_table[j] + calc->word, md5_const_h[j % 4]);
+	ret = calc->b + ret;
+
+	return (ret);
+}
+
+static unsigned int	ft_round_i(t_calc *calc, unsigned int j)
+{
+	unsigned int	w;
+	unsigned int	ret;
+
+	w = (7 * j) % 16;
+	calc->word = *((unsigned int *)(calc->chunk) + w);
+
+	ret = (calc->c ^ (calc->b | ~(calc->d)));
+	ret = ft_shift(ret + calc->a + md5_const_table[j] + calc->word, md5_const_i[j % 4]);
+	ret = calc->b + ret;
+
+	return (ret);
 }
 
 static void calculate(t_md5 *context)
 {
-	char			chunk[64];
-	unsigned int	sub[6]; // abcd fg
+	t_calc			calc;
 	unsigned int	tmp;
-	char			*src;
 	unsigned int	i;
 	unsigned int	j;
 
-	src = context->src;
+	calc.chunk = context->src;
 	i = 0;
 	while (i < context->n_chunks)
 	{
 		// init chunk
-    	sub[0] = context->hash[0]; //a
-    	sub[1] = context->hash[1]; //b
-    	sub[2] = context->hash[2]; //c
-    	sub[3] = context->hash[3]; //d
-
-    	ft_memcpy(src, chunk, 64);
+		calc.a = context->hash[0];
+		calc.b = context->hash[1];
+		calc.c = context->hash[2];
+		calc.d = context->hash[3];
 
 		j = 0;
 		while (j < 64)
 		{
-			// fghi
 			if (j < 16)
-			{
-				sub[4] = ft_f(sub[1], sub[2], sub[3]);
-				sub[5] = j;
-			}
+				tmp = ft_round_f(&calc, j);
 			else if (j < 32)
-			{
-				sub[4] = ft_g(sub[1], sub[2], sub[3]);
-				sub[5] = (5 * i + 1) % 16;
-			}
+				tmp = ft_round_g(&calc, j);
 			else if (j < 48)
-			{
-				sub[4] = ft_h(sub[1], sub[2], sub[3]);
-				sub[5] = (3 * i + 5) % 16;
-			}
+				tmp = ft_round_h(&calc, j);
 			else
-			{
-				sub[4] = ft_i(sub[1], sub[2], sub[3]);
-				sub[5] = (7 * i) % 16;
-			}
-
-			sub[4] += sub[0] + md5_const_table[j] + chunk[sub[5]];
-
+				tmp = ft_round_i(&calc, j);
+			calc.a = calc.d;
+			calc.d = calc.c;
+			calc.c = calc.b;
+			calc.b = tmp;
 			j++;
-
-			// rotate
-			tmp = sub[0];
-			sub[0] = sub[3];
-			sub[3] = sub[2];
-			sub[2] = sub[1];
-			sub[1] = tmp;
 		}
 
 		// add to context->hash
-    	context->hash[0] += sub[0];
-    	context->hash[1] += sub[1];
-    	context->hash[2] += sub[2];
-    	context->hash[3] += sub[3];
+		context->hash[0] = calc.a + context->hash[0];
+		context->hash[1] = calc.b + context->hash[1];
+		context->hash[2] = calc.c + context->hash[2];
+		context->hash[3] = calc.d + context->hash[3];
 
-    	src += 64;
 		i++;
+		calc.chunk += 64;
 	}
-}
-
-#include <stdio.h> // DEBUG
-void print_bytes(void *ptr, int size)  // DEBUG
-{
-    unsigned char *p = ptr;
-    int i;
-    for (i=0; i<size; i++) {
-        printf("%02hhX ", p[i]);
-    }
-    printf("|||\n");
-}
-
-void print_all(void *ptr, int size)  // DEBUG
-{
-    unsigned char *p = ptr;
-    int i;
-    for (i=0; i<size; i++) {
-        printf("%c ", p[i]);
-    }
-    printf("|||\n");
 }
 
 static void				ft_pad_src(t_md5 *context, const char *src)
 {
 	size_t				padded_len; // in bytes
 	size_t				i;
-	unsigned long long	bits;
+	unsigned int		bits;
 
 	padded_len = context->len + 1 + 8; // 1 bit for padding init && 64 bits for len
 	while (padded_len % 64 != 0) // % 512 bits
@@ -155,10 +171,8 @@ static void				ft_pad_src(t_md5 *context, const char *src)
 	context->src[i] = (1 << 7);
 	i = padded_len - 8;
 	bits = context->len * 8;
-	ft_memcpy(context->src + i, (const void *)&bits, 8);
+	ft_memcpy(context->src + i, (const void *)&bits, 4); // ???
 	context->n_chunks = padded_len / 64;
-	print_all(context->src, padded_len);
-	print_bytes(context->src, padded_len);
 }
 
 static enum e_endian	check_endian( void )
@@ -177,10 +191,10 @@ void	md5init(t_md5 *context, const char *src)
 	context->len = ft_strlen(src);
 	context->src = NULL;
 	ft_pad_src(context, src);
-    context->hash[0] = 0x67452301;
-    context->hash[1] = 0xefcdab89;
-    context->hash[2] = 0x98badcfe;
-    context->hash[3] = 0x10325476;
+	context->hash[0] = 0x67452301;
+	context->hash[1] = 0xefcdab89;
+	context->hash[2] = 0x98badcfe;
+	context->hash[3] = 0x10325476;
 }
 
 char	*ft_md5(const char *src)
@@ -191,8 +205,7 @@ char	*ft_md5(const char *src)
 	if (context.src == NULL)
 		return (NULL);
 	calculate(&context);
-	printf("%zx %zx %zx %zx\n", context.hash[0], context.hash[1], context.hash[2], context.hash[3]); // DEBUG
 	ft_strdel(&context.src);
+	printf("%0x %0x %0x %0x\n", context.hash[0], context.hash[1], context.hash[2], context.hash[3]); // DEBUG
 	return ("md5 !");
 }
-
