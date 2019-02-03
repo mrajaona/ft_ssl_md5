@@ -17,7 +17,7 @@
 */
 
 void	ft_strcpy(const char *src, char **dest);
-void	*ft_memcpy(void *str, const void *src, size_t n);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	ft_strdel(char **as);
 void	*ft_memalloc(size_t size);
 size_t	ft_strlen(const char *str);

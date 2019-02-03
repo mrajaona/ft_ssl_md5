@@ -5,12 +5,6 @@
 # include "util.h"
 # include <stdlib.h>
 
-union	u_bits
-{
-	unsigned long long	ull;
-	unsigned long		ul[2];
-};
-
 enum	e_endian
 {
 	big,

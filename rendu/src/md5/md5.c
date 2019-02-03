@@ -31,21 +31,6 @@ const int md5_const_table[64] = {
 	0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391,
 };
 
-static void ulToByte(unsigned long long size, char *buf) // TODO : check unsigned long = 64 bits
-{
-	int	i;
-	int	shift;
-
-	i = 0;
-	shift = 3 * 8;
-	while (i < 4)
-	{
-		buf[i] = (unsigned char)((size >> shift) & 0xff);
-		shift -= 8;
-		i++;
-	}
-}
-
 static unsigned long	ft_f(unsigned long b, unsigned long c, unsigned long d)
 {
 	return ((b & c) | (~b & d));
@@ -132,11 +117,32 @@ static void calculate(t_md5 *context)
 	}
 }
 
+#include <stdio.h> // DEBUG
+void print_bytes(void *ptr, int size)  // DEBUG
+{
+    unsigned char *p = ptr;
+    int i;
+    for (i=0; i<size; i++) {
+        printf("%02hhX ", p[i]);
+    }
+    printf("|||\n");
+}
+
+void print_all(void *ptr, int size)  // DEBUG
+{
+    unsigned char *p = ptr;
+    int i;
+    for (i=0; i<size; i++) {
+        printf("%c ", p[i]);
+    }
+    printf("|||\n");
+}
+
 static void				ft_pad_src(t_md5 *context, const char *src)
 {
 	size_t				padded_len; // in bytes
 	size_t				i;
-	union u_bits		bits;
+	unsigned long long	bits;
 
 	padded_len = context->len + 1 + 8; // 1 bit for padding init && 64 bits for len
 	while (padded_len % 64 != 0) // % 512 bits
@@ -148,10 +154,11 @@ static void				ft_pad_src(t_md5 *context, const char *src)
 	i = context->len;
 	context->src[i] = (1 << 7);
 	i = padded_len - 8;
-	bits.ull = context->len * 8;
-	ulToByte(bits.ul[0], context->src + i);
-	ulToByte(bits.ul[1], context->src + i);
+	bits = context->len * 8;
+	ft_memcpy(context->src + i, (const void *)&bits, 8);
 	context->n_chunks = padded_len / 64;
+	print_all(context->src, padded_len);
+	print_bytes(context->src, padded_len);
 }
 
 static enum e_endian	check_endian( void )
@@ -176,7 +183,6 @@ void	md5init(t_md5 *context, const char *src)
     context->hash[3] = 0x10325476;
 }
 
-#include <stdio.h>
 char	*ft_md5(const char *src)
 {
 	t_md5	context;
@@ -185,7 +191,7 @@ char	*ft_md5(const char *src)
 	if (context.src == NULL)
 		return (NULL);
 	calculate(&context);
-	printf("%zx %zx %zx %zx\n", context.hash[0], context.hash[1], context.hash[2], context.hash[3]);
+	printf("%zx %zx %zx %zx\n", context.hash[0], context.hash[1], context.hash[2], context.hash[3]); // DEBUG
 	ft_strdel(&context.src);
 	return ("md5 !");
 }
