@@ -13,7 +13,6 @@ enum	e_endian
 
 typedef struct			s_md5
 {
-	enum e_endian		endian;
 	size_t				len;
 	char				*src;
 	unsigned int		n_chunks;

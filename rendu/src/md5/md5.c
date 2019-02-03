@@ -171,23 +171,59 @@ static void				ft_pad_src(t_md5 *context, const char *src)
 	context->src[i] = (1 << 7);
 	i = padded_len - 8;
 	bits = context->len * 8;
-	ft_memcpy(context->src + i, (const void *)&bits, 4); // ???
+	ft_memcpy(context->src + i, (const void *)&bits, 4); // 8
 	context->n_chunks = padded_len / 64;
 }
 
-static enum e_endian	check_endian( void )
+static char gethex(unsigned int i)
 {
-   unsigned int	i;
-   char			*c;
-
-   i = 1;
-   c = (char *)&i;
-   return (*c ? little : big);
+	if (i < 10)
+		return (i + '0');
+	else if (i <= 16)
+		return (i - 10 + 'a');
+	else
+		return (0);
 }
 
-void	md5init(t_md5 *context, const char *src)
+static char	*tostr(unsigned int hash[4])
 {
-	context->endian = check_endian();
+	char	*str;
+	char	*s;
+	unsigned int	h;
+	unsigned int	i;
+
+	str = ft_memalloc(32 + 1);
+	if (str == NULL)
+		return (NULL);
+	h = 0;
+	s = str;
+	while (h < 4)
+	{
+		i = 0;
+		while (i < 4)
+		{
+			// NORME
+
+			unsigned int src = hash[h];
+			unsigned int mask = 0xff << (8 * i);
+			unsigned int masked = src & mask;
+			unsigned int n = masked >> (8 * i);
+
+			unsigned int m1 = 0xf0;
+			unsigned int m2 = 0x0f;
+
+			*s = gethex((n & m1) >> 4);
+			*(s + 1) = gethex(n & m2);
+			s += 2;
+			i++;
+		}
+		h++;
+	}
+	return (str);
+}
+
+static void	md5init(t_md5 *context, const char *src)
+{
 	context->len = ft_strlen(src);
 	context->src = NULL;
 	ft_pad_src(context, src);
@@ -207,5 +243,5 @@ char	*ft_md5(const char *src)
 	calculate(&context);
 	ft_strdel(&context.src);
 	printf("%0x %0x %0x %0x\n", context.hash[0], context.hash[1], context.hash[2], context.hash[3]); // DEBUG
-	return ("md5 !");
+	return (tostr(context.hash));
 }
