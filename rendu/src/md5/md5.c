@@ -15,6 +15,10 @@ static void ullToByte(unsigned long long size, char *buf) // TODO : check unsign
 
 	i = 0;
 	shift = 7 * 8;
+	/*
+	if (sizeof(size) > 64)
+		size = size % (1 << 64); // limit
+	*/
 	while (i < 8)
 	{
 		buf[i] = (unsigned char)((size >> shift) & 0xff);
