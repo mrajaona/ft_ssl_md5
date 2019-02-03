@@ -3,7 +3,6 @@
 
 # include "ft_ssl.h"
 # include "util.h"
-# include "util.h"
 # include <stdlib.h>
 
 enum e_endian
@@ -18,8 +17,6 @@ typedef struct			s_md5
 	size_t				len;
 	char				*src;
 	unsigned long		hash[4];
-	unsigned long		bits[2];
-	unsigned char		buf[64];
 }						t_md5;
 
 /*

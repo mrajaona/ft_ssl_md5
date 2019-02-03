@@ -19,7 +19,7 @@
 ** -1 : error
 */
 
-int			ft_end(int ret, int size)
+int		ft_end(int ret, int size)
 {
 	if (ret == -1)
 		return (-1);
@@ -30,7 +30,7 @@ int			ft_end(int ret, int size)
 	return (0);
 }
 
-char		*ft_strncpy(char *dest, const char *src, size_t n)
+char	*ft_strncpy(char *dest, const char *src, size_t n)
 {
 	size_t	i;
 
@@ -45,7 +45,7 @@ char		*ft_strncpy(char *dest, const char *src, size_t n)
 	return (dest);
 }
 
-char		*ft_alloc(char **line, size_t len)
+char	*ft_alloc(char **line, size_t len)
 {
 	char	*str;
 
@@ -58,7 +58,7 @@ char		*ft_alloc(char **line, size_t len)
 	return (str);
 }
 
-int			ft_get_next_line(int const fd, char **line, size_t size, size_t n)
+int		ft_get_next_line(int const fd, char **line, size_t size, size_t n)
 {
 	int		ret;
 	char	c;
@@ -86,7 +86,7 @@ int			ft_get_next_line(int const fd, char **line, size_t size, size_t n)
 	return (0);
 }
 
-int			get_next_line(int const fd, char **line)
+int		get_next_line(int const fd, char **line)
 {
 	if (!line)
 		return (-1);

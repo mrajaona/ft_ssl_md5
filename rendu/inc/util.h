@@ -16,11 +16,11 @@
 **	Functions
 */
 
-size_t	ft_strlen(const char *str);
-int		ft_strcmp(const char *s1, const char *s2);
 void	ft_strcpy(const char *src, char **dest);
 void	ft_strdel(char **as);
 void	*ft_memalloc(size_t size);
+size_t	ft_strlen(const char *str);
+int		ft_strcmp(const char *s1, const char *s2);
 int		get_next_line(int const fd, char **line);
 
 #endif
