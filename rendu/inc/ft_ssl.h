@@ -6,22 +6,22 @@
 
 # define N_CMDS 2
 
-typedef int		bool;
+typedef int			bool;
 
-typedef struct	s_params
+typedef struct		s_params
 {
-	int			pos;
-	bool		stdin;
-	bool		opt_p;
-	bool		opt_q;
-	bool		opt_r;
-	bool		opt_s;
-}				t_params;
+	int				pos;
+	bool			stdin;
+	bool			opt_p;
+	bool			opt_q;
+	bool			opt_r;
+	bool			opt_s;
+}					t_params;
 
-typedef struct	s_cmd
+typedef struct		s_cmd
 {
-	char		*name;
-	char		*(*fn)(const char *);
-}				t_cmd;
+	char			*name;
+	char			*(*fn)(const char *);
+}					t_cmd;
 
 #endif

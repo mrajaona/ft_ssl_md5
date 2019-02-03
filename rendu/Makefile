@@ -18,6 +18,7 @@ DIR_UTIL	=	./src/util/
 SRC_UTIL	=	ft_strlen.c \
 				ft_strcmp.c \
 				ft_strcpy.c \
+				ft_memcpy.c \
 				ft_strdel.c \
 				ft_memalloc.c \
 				get_next_line.c
