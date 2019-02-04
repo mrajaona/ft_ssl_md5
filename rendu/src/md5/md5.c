@@ -161,33 +161,12 @@ static void				ft_pad_src(t_md5 *context, const char *src)
 	padded_len = context->len + 1 + 8; // 1 bit for padding init && 64 bits for len
 	while (padded_len % 64 != 0) // % 512 bits
 		padded_len++;
-
-	// ft_print(src, TRUE); // ok // DEBUG
 	context->src = (char *)ft_memalloc(padded_len);
-	// ft_print(src, TRUE); // ng if malloc // DEBUG
-
 	if (context->src == NULL)
 	{
 		ft_printerr("ERROR: could not allocate.");
-		return ; // TODO : Error
+		return ;
 	}
-	/*
-	else // DEBUG
-	{
-		if (src + 0x1010 == context->src) // always here
-			ft_print("potato is 0x1010", TRUE);
-		if (context->len >= 0x1010)
-			ft_print("context->len >= 0x1010", TRUE);
-		if (src < context->src
-			&& src + context->len >= context->src)
-		{
-			ft_print("That address should not be valid.", TRUE);
-			free(context->src);
-			context->src = NULL;
-			return ;
-		}
-	}
-	*/
 	ft_memcpy(context->src, src, context->len);
 	i = context->len;
 	context->src[i] = 0x80;
