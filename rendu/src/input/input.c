@@ -6,7 +6,6 @@ char	*ft_read_file(const char *path)
 	int		fd;
 
 	fd = open(path, O_RDONLY);
-	// TODO : read tout le truc
 	if (get_next_line(fd, &line) == -1)
 	{
 		ft_printerr("GNL error.");
