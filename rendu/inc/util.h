@@ -10,13 +10,13 @@
 */
 
 # define BUFFER_SIZE 4096
-# define DEL EOF
 
 typedef struct	s_gnl
 {
 	int			fd;
 	size_t		size;
-	size_t		n;
+	size_t		old_size;
+	ssize_t		rd;
 	int			ret;
 }				t_gnl;
 
@@ -30,6 +30,6 @@ void	ft_strdel(char **as);
 void	*ft_memalloc(size_t size);
 size_t	ft_strlen(const char *str);
 int		ft_strcmp(const char *s1, const char *s2);
-int		get_next_line(int const fd, char **line);
+int		get_next_line(int const fd, char **line, size_t *size);
 
 #endif

@@ -19,81 +19,66 @@
 ** -1 : error
 */
 
-static int	ft_end(int ret, const size_t size)
-{
-	if (ret == -1)
-		return (-1);
-	if (ret == 0 && size > 0)
-		return (1);
-	if (ret == 0 && size == 0)
-		return (0);
-	return (0);
-}
-
-static char	*ft_strncpy(char *dest, const char *src, size_t n)
+static void	ft_buf_clr(char *buf, const size_t size)
 {
 	size_t	i;
 
 	i = 0;
-	while (src[i] && i < n)
+	while (i < size)
 	{
-		dest[i] = src[i];
-		i = i + 1;
+		buf[i] = 0;
+		i++;
 	}
-	while (i < n)
-		dest[i++] = '\0';
-	return (dest);
 }
 
-static char	*ft_alloc(char **line, size_t len)
+static void	ft_alloc_line(char **line, size_t len, size_t cpylen)
 {
 	char	*str;
 
-	if ((str = malloc(len + BUFFER_SIZE)) == NULL)
+	if (line == NULL)
+		return ;
+	if ((str = ft_memalloc(len + 1)) == NULL)
 	{
-		if (line != NULL && *line != NULL)
-		{
-			free(*line);
-			*line = NULL;
-		}
-		return (NULL);
+		ft_strdel(line);
+		return ;
 	}
-	if (len == 0)
-		return (str);
-	ft_strncpy(str, (*line), len);
-	free(*line);
-	return (str);
+	if (line != NULL && *line != NULL)
+	{
+		ft_memcpy(str, (*line), cpylen);
+		ft_strdel(line);
+	}
+	*line = str;
 }
 
-static int	ft_get_next_line(t_gnl *gnl, char **line)
+static void	ft_get_next_line(t_gnl *gnl, char **line)
 {
-	char	c;
+	char	buf[BUFFER_SIZE + 1];
 
-	while (42)
+	while (1)
 	{
-		if (((*line) = ft_alloc(line, gnl->size)) == NULL)
-			return (-1);
-		while (gnl->size < BUFFER_SIZE * gnl->n)
+		ft_buf_clr(buf, BUFFER_SIZE + 1);
+		gnl->rd = read(gnl->fd, buf, BUFFER_SIZE);
+		if (gnl->rd <= 0)
 		{
-			gnl->ret = read(gnl->fd, &c, 1);
-			(*line)[gnl->size] = '\0';
-			if (gnl->ret > 0)
-			{
-				if (c == DEL)
-					return (1);
-				(*line)[gnl->size] = c;
-			}
+			if (gnl->rd == -1)
+				gnl->ret = -1;
 			else
-				return (ft_end(gnl->ret, gnl->size));
-			gnl->size = gnl->size + 1;
+				gnl->ret = gnl->size > 0 ? 1 : 0;
+			return ;
 		}
-		(*line)[gnl->size] = '\0';
-		gnl->n = gnl->n + 1;
+		gnl->old_size = gnl->size;
+		gnl->size += gnl->rd;
+		ft_alloc_line(line, gnl->size, gnl->old_size);
+		if (line == NULL || *line == NULL)
+		{
+			gnl->ret = -1;
+			return ;
+		}
+		ft_memcpy(*line + gnl->old_size, buf, (size_t)gnl->rd);
 	}
-	return (0);
 }
 
-int			get_next_line(int const fd, char **line)
+int			get_next_line(int const fd, char **line, size_t *size)
 {
 	t_gnl	gnl;
 
@@ -101,7 +86,11 @@ int			get_next_line(int const fd, char **line)
 		return (-1);
 	gnl.fd = fd;
 	gnl.size = 0;
-	gnl.n = -1;
+	gnl.old_size = 0;
+	gnl.rd = 0;
 	gnl.ret = 0;
-	return (ft_get_next_line(&gnl, &(*line)));
+
+	ft_get_next_line(&gnl, &(*line));
+	*size = gnl.size;
+	return (gnl.ret);
 }

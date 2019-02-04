@@ -41,10 +41,9 @@ static void print_opt_r(const char *hash, const char *src, t_params *params)
 		ft_print(src, TRUE);
 }
 
-static void print_no_opt(const char *hash, const char *src,
-	t_params *params, t_cmd *cmd)
+static void print_no_opt(const char *hash, const char *src, t_params *params)
 {
-	ft_print((const char *)cmd->name, FALSE);
+	ft_print((const char *)params->cmd.name, FALSE);
 	ft_print(params->stdin == FALSE
 		&& params->opt_s == TRUE ? "(\"" : "(", FALSE);
 	ft_print(src, FALSE);
@@ -53,8 +52,7 @@ static void print_no_opt(const char *hash, const char *src,
 	ft_print(hash, TRUE);
 }
 
-void	ft_print_hash(const char *hash, const char *src,
-	t_params *params, t_cmd *cmd)
+void	ft_print_hash(const char *hash, const char *src, t_params *params)
 {
 	if (hash == NULL || src == NULL || params == NULL)
 		return ;
@@ -68,5 +66,5 @@ void	ft_print_hash(const char *hash, const char *src,
 	else if (params->opt_r == TRUE)
 		print_opt_r(hash, src, params);
 	else
-		print_no_opt(hash, src, params, cmd);
+		print_no_opt(hash, src, params);
 }

@@ -8,7 +8,6 @@
 ** check little/big endian
 */
 
-#include "output.h" // DEBUG
 const unsigned int md5_const_table[64] = {
 	//f
 	0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee,
@@ -163,9 +162,9 @@ static void				ft_pad_src(t_md5 *context, const char *src)
 	while (padded_len % 64 != 0) // % 512 bits
 		padded_len++;
 
-	ft_print(src, TRUE); // ok
-	context->src = (char *)ft_memalloc(padded_len); // <-------- ?????
-	ft_print(src, TRUE); // ng if malloc
+	// ft_print(src, TRUE); // ok // DEBUG
+	context->src = (char *)ft_memalloc(padded_len);
+	// ft_print(src, TRUE); // ng if malloc // DEBUG
 
 	if (context->src == NULL)
 	{
@@ -175,11 +174,18 @@ static void				ft_pad_src(t_md5 *context, const char *src)
 	/*
 	else // DEBUG
 	{
-		ft_print("freeing -----------------", TRUE); // ng if malloc
-		free(context->src);
-		context->src = NULL;
-		ft_print(src, TRUE);
-		return ;
+		if (src + 0x1010 == context->src) // always here
+			ft_print("potato is 0x1010", TRUE);
+		if (context->len >= 0x1010)
+			ft_print("context->len >= 0x1010", TRUE);
+		if (src < context->src
+			&& src + context->len >= context->src)
+		{
+			ft_print("That address should not be valid.", TRUE);
+			free(context->src);
+			context->src = NULL;
+			return ;
+		}
 	}
 	*/
 	ft_memcpy(context->src, src, context->len);
@@ -238,9 +244,9 @@ static char	*tostr(unsigned int hash[4])
 	return (str);
 }
 
-static void	md5init(t_md5 *context, const char *src)
+static void	md5init(t_md5 *context, const char *src, size_t size)
 {
-	context->len = ft_strlen(src);
+	context->len = size == 0 ? ft_strlen(src) : size;
 	ft_pad_src(context, src);
 	context->hash[0] = 0x67452301;
 	context->hash[1] = 0xefcdab89;
@@ -248,11 +254,11 @@ static void	md5init(t_md5 *context, const char *src)
 	context->hash[3] = 0x10325476;
 }
 
-char	*ft_md5(const char *src)
+char	*ft_md5(const char *src, size_t size)
 {
 	t_md5	context;
 
-	md5init(&context, src);
+	md5init(&context, src, size);
 	if (context.src == NULL)
 		return (NULL);
 	calculate(&context);

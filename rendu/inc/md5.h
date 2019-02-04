@@ -2,6 +2,7 @@
 # define MD5_H
 
 # include "ft_ssl.h"
+# include "output.h"
 # include "util.h"
 # include <stdlib.h>
 
@@ -33,6 +34,6 @@ typedef struct			s_calc
 **	Functions
 */
 
-char	*ft_md5(const char *src);
+char	*ft_md5(const char *src, size_t size);
 
 #endif

@@ -1,12 +1,13 @@
 #include "input.h"
 
-char	*ft_read_file(const char *path)
+char	*ft_read_file(const char *path, size_t *size)
 {
 	char	*line;
 	int		fd;
 
 	fd = open(path, O_RDONLY);
-	if (get_next_line(fd, &line) == -1)
+	line = NULL;
+	if (get_next_line(fd, &line, size) == -1)
 	{
 		ft_printerr("GNL error.");
 		close(fd);
@@ -16,11 +17,12 @@ char	*ft_read_file(const char *path)
 	return (line);
 }
 
-char	*ft_read_stdin( void )
+char	*ft_read_stdin(size_t *size)
 {
 	char	*line;
 
-	if (get_next_line(0, &line) == -1)
+	line = NULL;
+	if (get_next_line(0, &line, size) == -1)
 	{
 		ft_printerr("GNL error.");
 		return (NULL);

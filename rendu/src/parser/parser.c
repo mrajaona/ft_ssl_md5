@@ -69,12 +69,11 @@ static bool check_cmd(const char *arg, t_cmd *cmd)
 	return (FALSE);
 }
 
-void ft_ssl_parse(const int ac, const char **av,
-	t_params *params, t_cmd *cmd)
+void ft_ssl_parse(const int ac, const char **av, t_params *params)
 {
-	if (check_cmd(av[1], cmd) == FALSE
+	if (check_cmd(av[1], &(params->cmd)) == FALSE
 		|| check_opts(ac, av, params) == FALSE
-		|| cmd->name == NULL
-		|| cmd->fn == NULL)
+		|| params->cmd.name == NULL
+		|| params->cmd.fn == NULL)
 		return ;
 }
