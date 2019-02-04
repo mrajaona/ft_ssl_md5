@@ -8,8 +8,7 @@
 ** check little/big endian
 */
 
-// #include <stdio.h> // DEBUG
-
+#include "output.h" // DEBUG
 const unsigned int md5_const_table[64] = {
 	//f
 	0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee,
@@ -163,15 +162,30 @@ static void				ft_pad_src(t_md5 *context, const char *src)
 	padded_len = context->len + 1 + 8; // 1 bit for padding init && 64 bits for len
 	while (padded_len % 64 != 0) // % 512 bits
 		padded_len++;
-	context->src = ft_memalloc(padded_len);
+
+	ft_print(src, TRUE); // ok
+	context->src = (char *)ft_memalloc(padded_len); // <-------- ?????
+	ft_print(src, TRUE); // ng if malloc
+
 	if (context->src == NULL)
+	{
+		ft_printerr("ERROR: could not allocate.");
 		return ; // TODO : Error
+	}
+	else // DEBUG
+	{
+		ft_print("freeing -----------------", TRUE); // ng if malloc
+		free(context->src);
+		context->src = NULL;
+		ft_print(src, TRUE);
+		return ;
+	}
 	ft_strcpy(src, &context->src);
 	i = context->len;
-	context->src[i] = (1 << 7);
+	context->src[i] = 0x80;
 	i = padded_len - 8;
 	bits = context->len * 8;
-	ft_memcpy(context->src + i, (const void *)&bits, 4); // 8
+	ft_memcpy(context->src + i, (const void *)&bits, 8);
 	context->n_chunks = padded_len / 64;
 }
 
@@ -225,7 +239,6 @@ static char	*tostr(unsigned int hash[4])
 static void	md5init(t_md5 *context, const char *src)
 {
 	context->len = ft_strlen(src);
-	context->src = NULL;
 	ft_pad_src(context, src);
 	context->hash[0] = 0x67452301;
 	context->hash[1] = 0xefcdab89;
@@ -242,6 +255,5 @@ char	*ft_md5(const char *src)
 		return (NULL);
 	calculate(&context);
 	ft_strdel(&context.src);
-	// printf("%0x %0x %0x %0x\n", context.hash[0], context.hash[1], context.hash[2], context.hash[3]); // DEBUG
 	return (tostr(context.hash));
 }

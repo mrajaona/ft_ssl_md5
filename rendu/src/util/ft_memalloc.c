@@ -4,6 +4,8 @@ void		*ft_memalloc(size_t size)
 {
 	char	*ptr;
 
+	if (size == 0)
+		return (NULL);
 	if ((ptr = malloc(size)) == NULL)
 		return (NULL);
 	while (--size != 0)

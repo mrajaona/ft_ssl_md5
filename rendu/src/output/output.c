@@ -46,10 +46,10 @@ static void print_no_opt(const char *hash, const char *src,
 {
 	ft_print((const char *)cmd->name, FALSE);
 	ft_print(params->stdin == FALSE
-		&& params->opt_s == TRUE ? " (\"" : " (", FALSE);
+		&& params->opt_s == TRUE ? "(\"" : "(", FALSE);
 	ft_print(src, FALSE);
 	ft_print(params->stdin == FALSE
-		&& params->opt_s == TRUE ? "\") = " : ") = ", FALSE);
+		&& params->opt_s == TRUE ? "\")= " : ")= ", FALSE);
 	ft_print(hash, TRUE);
 }
 
