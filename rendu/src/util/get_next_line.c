@@ -50,7 +50,14 @@ static char	*ft_alloc(char **line, size_t len)
 	char	*str;
 
 	if ((str = malloc(len + BUFFER_SIZE)) == NULL)
+	{
+		if (line != NULL && *line != NULL)
+		{
+			free(*line);
+			*line = NULL;
+		}
 		return (NULL);
+	}
 	if (len == 0)
 		return (str);
 	ft_strncpy(str, (*line), len);
