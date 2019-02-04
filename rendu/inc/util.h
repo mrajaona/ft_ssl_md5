@@ -12,6 +12,14 @@
 # define BUFFER_SIZE 4096
 # define DEL EOF
 
+typedef struct	s_gnl
+{
+	int			fd;
+	size_t		size;
+	size_t		n;
+	int			ret;
+}				t_gnl;
+
 /*
 **	Functions
 */

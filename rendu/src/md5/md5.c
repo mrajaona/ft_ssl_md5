@@ -172,6 +172,7 @@ static void				ft_pad_src(t_md5 *context, const char *src)
 		ft_printerr("ERROR: could not allocate.");
 		return ; // TODO : Error
 	}
+	/*
 	else // DEBUG
 	{
 		ft_print("freeing -----------------", TRUE); // ng if malloc
@@ -180,7 +181,8 @@ static void				ft_pad_src(t_md5 *context, const char *src)
 		ft_print(src, TRUE);
 		return ;
 	}
-	ft_memcpy(&context->src, src, context->len);
+	*/
+	ft_memcpy(context->src, src, context->len);
 	i = context->len;
 	context->src[i] = 0x80;
 	i = padded_len - 8;

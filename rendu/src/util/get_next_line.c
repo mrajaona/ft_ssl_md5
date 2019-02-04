@@ -19,7 +19,7 @@
 ** -1 : error
 */
 
-static int	ft_end(int ret, int size)
+static int	ft_end(int ret, const size_t size)
 {
 	if (ret == -1)
 		return (-1);
@@ -65,38 +65,43 @@ static char	*ft_alloc(char **line, size_t len)
 	return (str);
 }
 
-static int	ft_get_next_line(int const fd, char **line, size_t size, size_t n)
+static int	ft_get_next_line(t_gnl *gnl, char **line)
 {
-	int		ret;
 	char	c;
 
 	while (42)
 	{
-		if ((*line) = ft_alloc(line, size) == NULL)
+		if (((*line) = ft_alloc(line, gnl->size)) == NULL)
 			return (-1);
-		while (size < BUFFER_SIZE * n)
+		while (gnl->size < BUFFER_SIZE * gnl->n)
 		{
-			ret = read(fd, &c, 1);
-			(*line)[size] = '\0';
-			if (ret > 0)
+			gnl->ret = read(gnl->fd, &c, 1);
+			(*line)[gnl->size] = '\0';
+			if (gnl->ret > 0)
 			{
 				if (c == DEL)
 					return (1);
-				(*line)[size] = c;
+				(*line)[gnl->size] = c;
 			}
 			else
-				return (ft_end(ret, size));
-			size = size + 1;
+				return (ft_end(gnl->ret, gnl->size));
+			gnl->size = gnl->size + 1;
 		}
-		(*line)[size] = '\0';
-		n = n + 1;
+		(*line)[gnl->size] = '\0';
+		gnl->n = gnl->n + 1;
 	}
 	return (0);
 }
 
 int			get_next_line(int const fd, char **line)
 {
+	t_gnl	gnl;
+
 	if (!line)
 		return (-1);
-	return (ft_get_next_line(fd, &(*line), 0, -1));
+	gnl.fd = fd;
+	gnl.size = 0;
+	gnl.n = -1;
+	gnl.ret = 0;
+	return (ft_get_next_line(&gnl, &(*line)));
 }
