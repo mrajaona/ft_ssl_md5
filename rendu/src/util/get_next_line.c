@@ -72,7 +72,8 @@ static int	ft_get_next_line(int const fd, char **line, size_t size, size_t n)
 
 	while (42)
 	{
-		(*line) = ft_alloc(line, size);
+		if ((*line) = ft_alloc(line, size) == NULL)
+			return (-1);
 		while (size < BUFFER_SIZE * n)
 		{
 			ret = read(fd, &c, 1);
