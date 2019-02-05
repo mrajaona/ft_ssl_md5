@@ -34,6 +34,12 @@ typedef struct			s_calc
 **	Functions
 */
 
-char	*ft_md5(const char *src, size_t size);
-
+char            *ft_md5(const char *src, size_t size);
+void	        md5init(t_md5 *context, const char *src, size_t size);
+void            calc_loop(t_calc	*calc);
+unsigned int	ft_round_f(t_calc *calc, unsigned int j);
+unsigned int	ft_round_g(t_calc *calc, unsigned int j);
+unsigned int	ft_round_h(t_calc *calc, unsigned int j);
+unsigned int	ft_round_i(t_calc *calc, unsigned int j);
+char	        *tostr(unsigned int hash[4]);
 #endif

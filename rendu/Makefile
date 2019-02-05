@@ -33,11 +33,16 @@ SRC_INPUT	=	input.c
 SRCS_INPUT	=	$(addprefix $(DIR_INPUT), $(SRC_INPUT))
 
 DIR_OUTPUT	=	./src/output/
-SRC_OUTPUT	=	output.c
+SRC_OUTPUT	=	output.c \
+				print_hash.c
 SRCS_OUTPUT	=	$(addprefix $(DIR_OUTPUT), $(SRC_OUTPUT))
 
 DIR_MD5		=	./src/md5/
-SRC_MD5		=	md5.c
+SRC_MD5		=	md5.c \
+				init.c \
+				calc_loop.c \
+				rounds.c \
+				tostr.c
 SRCS_MD5	=	$(addprefix $(DIR_MD5), $(SRC_MD5))
 
 DIR_SHA256	=	./src/sha256/

@@ -5,7 +5,11 @@ char	*ft_read_file(const char *path, size_t *size)
 	char	*line;
 	int		fd;
 
-	fd = open(path, O_RDONLY);
+	if ((fd = open(path, O_RDONLY)) == -1)
+	{
+		ft_printerr("open error.");
+		return (NULL);
+	}
 	line = NULL;
 	if (get_next_line(fd, &line, size) == -1)
 	{
