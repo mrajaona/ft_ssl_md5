@@ -23,6 +23,7 @@ SRC_UTIL	=	rotate.c \
 				ft_strdel.c \
 				ft_memalloc.c \
 				ft_gethex.c \
+				ft_switch_endian.c \
 				get_next_line.c
 SRCS_UTIL	=	$(addprefix $(DIR_UTIL), $(SRC_UTIL))
 

@@ -6,7 +6,7 @@
 ** complete with 0 until total is a multiple of 512 bits
 **
 */
-
+#include <stdio.h>
 static void	ft_pad_src(t_sha256 *context, const char *src)
 {
 	size_t	padded_len; // in bytes
@@ -26,8 +26,9 @@ static void	ft_pad_src(t_sha256 *context, const char *src)
 	i = context->len;
 	context->src[i] = 0x80;
 	i = padded_len - 8;
-	// TODO : must be big endian
 	bits = context->len * 8;
+	// TODO : must be big endian // CHECK
+	bits = ft_switch_endian(bits); // pas d'effet ?
 	ft_memcpy(context->src + i, (const void *)&bits, 8);
 	context->n_chunks = padded_len / 64;
 }

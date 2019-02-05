@@ -9,7 +9,10 @@ static void			init_msg_schedule(unsigned int	msg[64], char *chunk)
 	while (i < 64)
 	{
 		if (i < 16)
-			ft_memcpy(&(msg[i]), chunk + (i * 8), 8);
+		{
+			ft_memcpy(&(msg[i]), chunk + (i * 8), 8); // CHECK
+			msg[i] = ft_switch_endian(msg[i]);
+		}
 		else
 		{
 			t[0] = (right_rot(msg[i - 15], 7)) ^ (right_rot(msg[i - 15], 18))
