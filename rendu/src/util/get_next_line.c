@@ -54,18 +54,16 @@ static void	ft_get_next_line(t_gnl *gnl, char **line)
 {
 	char	buf[BUFFER_SIZE + 1];
 
-	while (1)
+	while (gnl->rd > 0)
 	{
 		ft_buf_clr(buf, BUFFER_SIZE + 1);
 		gnl->rd = read(gnl->fd, buf, BUFFER_SIZE);
-		if (gnl->rd <= 0)
+		if (gnl->rd == -1)
 		{
-			if (gnl->rd == -1)
-				gnl->ret = -1;
-			else
-				gnl->ret = gnl->size > 0 ? 1 : 0;
+			gnl->ret = -1;
 			return ;
 		}
+		gnl->ret = gnl->size > 0 ? 1 : 0;
 		gnl->old_size = gnl->size;
 		gnl->size += gnl->rd;
 		ft_alloc_line(line, gnl->size, gnl->old_size);
@@ -87,7 +85,7 @@ int			get_next_line(int const fd, char **line, size_t *size)
 	gnl.fd = fd;
 	gnl.size = 0;
 	gnl.old_size = 0;
-	gnl.rd = 0;
+	gnl.rd = 1;
 	gnl.ret = 0;
 
 	ft_get_next_line(&gnl, &(*line));

@@ -26,8 +26,8 @@ static void	ft_pad_src(t_sha256 *context, const char *src)
 	i = context->len;
 	context->src[i] = 0x80;
 	i = padded_len - 8;
-	bits = context->len * 8;
 	// TODO : must be big endian // CHECK
+	bits = context->len * 8;
 	bits = ft_switch_endian(bits); // pas d'effet ?
 	ft_memcpy(context->src + i, (const void *)&bits, 8);
 	context->n_chunks = padded_len / 64;

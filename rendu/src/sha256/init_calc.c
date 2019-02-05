@@ -10,7 +10,7 @@ static void			init_msg_schedule(unsigned int	msg[64], char *chunk)
 	{
 		if (i < 16)
 		{
-			ft_memcpy(&(msg[i]), chunk + (i * 8), 8); // CHECK
+			ft_memcpy(&(msg[i]), chunk + (i * 8), 8);
 			msg[i] = ft_switch_endian(msg[i]);
 		}
 		else

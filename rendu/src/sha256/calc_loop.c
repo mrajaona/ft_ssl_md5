@@ -25,7 +25,7 @@ void	sha256_calc_loop(t_calc_sha256 *calc, size_t i)
         tmp[0] = (right_rot(calc->e, 6)) ^ (right_rot(calc->e, 11))
         	^ (right_rot(calc->e, 25));
         tmp[1] = (calc->e & calc->f) ^ (~(calc->e) & calc->g);
-        tmp[2] = calc->h + tmp[0] + tmp[1] + g_sha256_const_table[i]
+        tmp[2] = calc->h + tmp[0] + tmp[1] + ft_switch_endian(g_sha256_const_table[i])
         	+ calc->msg_schedule[i];
         tmp[3] = (right_rot(calc->a, 2)) ^ (right_rot(calc->a, 13))
         	^ (right_rot(calc->a, 22));
