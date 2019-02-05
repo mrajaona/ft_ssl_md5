@@ -34,7 +34,7 @@ typedef struct			s_calc_sha256
 char	*ft_sha256(const char *src, size_t size);
 void	sha256_init(t_sha256 *context, const char *src, size_t size);
 void	sha256_init_calc(t_calc_sha256 *calc, unsigned int hash[8]);
-void	sha256_calc_loop(t_calc_sha256 *calc, size_t i);
+void	sha256_calc_loop(t_calc_sha256 *calc);
 char	*sha256_tostr(unsigned int hash[8]);
 
 #endif

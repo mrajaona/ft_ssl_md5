@@ -14,24 +14,24 @@ const unsigned int	g_sha256_const_table[64] = {
 	0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
 };
 
-void	sha256_calc_loop(t_calc_sha256 *calc, size_t i)
+void	sha256_calc_loop(t_calc_sha256 *calc)
 {
 	unsigned int	tmp[5];
-	size_t	j;
+	size_t	i;
 
-	j = 0;
-	while (j < 64)
+	i = 0;
+	while (i < 64)
 	{
-        tmp[0] = (right_rot(calc->e, 6)) ^ (right_rot(calc->e, 11))
-        	^ (right_rot(calc->e, 25));
+		if (i < 16)
+			printf("%.8x_", calc->msg_schedule[i]);
+
+        tmp[0] = (right_rot(calc->e, 6)) ^ (right_rot(calc->e, 11)) ^ (right_rot(calc->e, 25));
         tmp[1] = (calc->e & calc->f) ^ (~(calc->e) & calc->g);
-        tmp[2] = calc->h + tmp[0] + tmp[1] + ft_switch_endian(g_sha256_const_table[i])
-        	+ calc->msg_schedule[i];
-        tmp[3] = (right_rot(calc->a, 2)) ^ (right_rot(calc->a, 13))
-        	^ (right_rot(calc->a, 22));
-        tmp[4] = (calc->a & calc->b) ^ (calc->a & calc->c)
-        	^ (calc->b & calc->c);
+        tmp[2] = calc->h + tmp[0] + tmp[1] + g_sha256_const_table[i] + calc->msg_schedule[i];
+        tmp[3] = (right_rot(calc->a, 2)) ^ (right_rot(calc->a, 13)) ^ (right_rot(calc->a, 22));
+        tmp[4] = (calc->a & calc->b) ^ (calc->a & calc->c) ^ (calc->b & calc->c);
         tmp[5] = tmp[3] + tmp[4];
+
         calc->h = calc->g;
         calc->g = calc->f;
         calc->f = calc->e;
@@ -40,6 +40,7 @@ void	sha256_calc_loop(t_calc_sha256 *calc, size_t i)
         calc->c = calc->b;
         calc->b = calc->a;
         calc->a = tmp[2] + tmp[5];
-		j++;
+		i++;
 	}
+	printf("\n");
 }

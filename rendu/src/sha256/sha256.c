@@ -22,7 +22,7 @@ static void	calculate(t_sha256 *context)
 	while (i < context->n_chunks)
 	{
 		sha256_init_calc(&calc, context->hash);
-		sha256_calc_loop(&calc, i);
+		sha256_calc_loop(&calc);
 		update_hash(&calc, context->hash);
 		i++;
 		calc.chunk += 64;
