@@ -30,17 +30,7 @@ const unsigned int	g_md5_const_g[4] = {5, 9, 14, 20};
 const unsigned int	g_md5_const_h[4] = {4, 11, 16, 23};
 const unsigned int	g_md5_const_i[4] = {6, 10, 15, 21};
 
-static unsigned int	ft_shift(unsigned int to_shift, unsigned int amount)
-{
-	unsigned int a;
-	unsigned int b;
-
-	a = to_shift << amount;
-	b = to_shift >> (32 - amount);
-	return (a | b);
-}
-
-unsigned int		ft_round_f(t_calc *calc, unsigned int j)
+unsigned int		md5_round_f(t_calc_md5 *calc, unsigned int j)
 {
 	unsigned int	w;
 	unsigned int	ret;
@@ -49,14 +39,14 @@ unsigned int		ft_round_f(t_calc *calc, unsigned int j)
 	calc->word = *((unsigned int *)(calc->chunk) + w);
 
 	ret = (calc->b & calc->c) | (~(calc->b) & calc->d);
-	ret = ft_shift(ret + calc->a + g_md5_const_table[j] + calc->word,
+	ret = left_rot(ret + calc->a + g_md5_const_table[j] + calc->word,
 		g_md5_const_f[j % 4]);
 	ret = calc->b + ret;
 
 	return (ret);
 }
 
-unsigned int		ft_round_g(t_calc *calc, unsigned int j)
+unsigned int		md5_round_g(t_calc_md5 *calc, unsigned int j)
 {
 	unsigned int	w;
 	unsigned int	ret;
@@ -65,14 +55,14 @@ unsigned int		ft_round_g(t_calc *calc, unsigned int j)
 	calc->word = *((unsigned int *)(calc->chunk) + w);
 
 	ret = (calc->d & calc->b) | (~(calc->d) & calc->c);
-	ret = ft_shift(ret + calc->a + g_md5_const_table[j] + calc->word,
+	ret = left_rot(ret + calc->a + g_md5_const_table[j] + calc->word,
 		g_md5_const_g[j % 4]);
 	ret = calc->b + ret;
 
 	return (ret);
 }
 
-unsigned int		ft_round_h(t_calc *calc, unsigned int j)
+unsigned int		md5_round_h(t_calc_md5 *calc, unsigned int j)
 {
 	unsigned int	w;
 	unsigned int	ret;
@@ -81,14 +71,14 @@ unsigned int		ft_round_h(t_calc *calc, unsigned int j)
 	calc->word = *((unsigned int *)(calc->chunk) + w);
 
 	ret = (calc->b ^ calc->c ^ calc->d);
-	ret = ft_shift(ret + calc->a + g_md5_const_table[j] + calc->word,
+	ret = left_rot(ret + calc->a + g_md5_const_table[j] + calc->word,
 		g_md5_const_h[j % 4]);
 	ret = calc->b + ret;
 
 	return (ret);
 }
 
-unsigned int		ft_round_i(t_calc *calc, unsigned int j)
+unsigned int		md5_round_i(t_calc_md5 *calc, unsigned int j)
 {
 	unsigned int	w;
 	unsigned int	ret;
@@ -97,7 +87,7 @@ unsigned int		ft_round_i(t_calc *calc, unsigned int j)
 	calc->word = *((unsigned int *)(calc->chunk) + w);
 
 	ret = (calc->c ^ (calc->b | ~(calc->d)));
-	ret = ft_shift(ret + calc->a + g_md5_const_table[j] + calc->word,
+	ret = left_rot(ret + calc->a + g_md5_const_table[j] + calc->word,
 		g_md5_const_i[j % 4]);
 	ret = calc->b + ret;
 

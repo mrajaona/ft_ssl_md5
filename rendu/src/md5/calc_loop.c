@@ -1,6 +1,6 @@
 #include "md5.h"
 
-void	calc_loop(t_calc	*calc)
+void	md5_calc_loop(t_calc_md5 *calc)
 {
 	unsigned int	tmp;
 	size_t	j;
@@ -9,13 +9,13 @@ void	calc_loop(t_calc	*calc)
 	while (j < 64)
 	{
 		if (j < 16)
-			tmp = ft_round_f(calc, j);
+			tmp = md5_round_f(calc, j);
 		else if (j < 32)
-			tmp = ft_round_g(calc, j);
+			tmp = md5_round_g(calc, j);
 		else if (j < 48)
-			tmp = ft_round_h(calc, j);
+			tmp = md5_round_h(calc, j);
 		else
-			tmp = ft_round_i(calc, j);
+			tmp = md5_round_i(calc, j);
 		calc->a = calc->d;
 		calc->d = calc->c;
 		calc->c = calc->b;

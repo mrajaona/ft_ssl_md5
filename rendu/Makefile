@@ -15,12 +15,14 @@ SRC_MAIN	=	main.c
 SRCS_MAIN	=	$(addprefix $(DIR_MAIN), $(SRC_MAIN))
 
 DIR_UTIL	=	./src/util/
-SRC_UTIL	=	ft_strlen.c \
+SRC_UTIL	=	rotate.c \
+				ft_strlen.c \
 				ft_strcmp.c \
 				ft_strcpy.c \
 				ft_memcpy.c \
 				ft_strdel.c \
 				ft_memalloc.c \
+				ft_gethex.c \
 				get_next_line.c
 SRCS_UTIL	=	$(addprefix $(DIR_UTIL), $(SRC_UTIL))
 
@@ -46,7 +48,11 @@ SRC_MD5		=	md5.c \
 SRCS_MD5	=	$(addprefix $(DIR_MD5), $(SRC_MD5))
 
 DIR_SHA256	=	./src/sha256/
-SRC_SHA256	=	sha256.c
+SRC_SHA256	=	sha256.c \
+				init.c \
+				init_calc.c \
+				calc_loop.c \
+				tostr.c
 SRCS_SHA256	=	$(addprefix $(DIR_SHA256), $(SRC_SHA256))
 
 SRCS		=	$(SRCS_MAIN) \
