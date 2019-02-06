@@ -26,7 +26,7 @@ char		*sha256_tostr(unsigned int hash[8])
 		i = 0;
 		while (i < 4)
 		{
-			mask(hash[n_hash], s, i);
+			mask(ft_endian_uint(hash[n_hash]), s, i);
 			s += 2;
 			i++;
 		}
