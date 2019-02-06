@@ -26,7 +26,7 @@ typedef struct	s_gnl
 
 unsigned int	right_rot(unsigned int word, unsigned int amount);
 unsigned int	left_rot(unsigned int word, unsigned int amount);
-void			ft_strcpy(const char *src, char **dest);
+void			ft_strcpy(const char *src, char *dest);
 void			*ft_memcpy(void *dest, const void *src, size_t n);
 void			ft_strdel(char **as);
 void			*ft_memalloc(size_t size);

@@ -18,6 +18,7 @@ typedef struct		s_cmd
 
 typedef struct		s_params
 {
+	char			*exe;
 	int				pos;
 	bool			stdin;
 	bool			opt_p;

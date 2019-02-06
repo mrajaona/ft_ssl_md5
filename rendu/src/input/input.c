@@ -1,19 +1,19 @@
 #include "input.h"
 
-char	*ft_read_file(const char *path, size_t *size)
+char	*ft_read_file(const char *path, t_params *p)
 {
 	char	*line;
 	int		fd;
 
 	if ((fd = open(path, O_RDONLY)) == -1)
 	{
-		ft_printerr("open error.");
+		ft_printerr(p->exe, path, ERR_OPEN);
 		return (NULL);
 	}
 	line = NULL;
-	if (get_next_line(fd, &line, size) == -1)
+	if (get_next_line(fd, &line, &(p->file_size)) == -1)
 	{
-		ft_printerr("GNL error.");
+		ft_printerr(NULL, path, ERR_GNL);
 		close(fd);
 		return (NULL);
 	}
@@ -21,14 +21,14 @@ char	*ft_read_file(const char *path, size_t *size)
 	return (line);
 }
 
-char	*ft_read_stdin(size_t *size)
+char	*ft_read_stdin(t_params *p)
 {
 	char	*line;
 
 	line = NULL;
-	if (get_next_line(0, &line, size) == -1)
+	if (get_next_line(0, &line, &(p->file_size)) == -1)
 	{
-		ft_printerr("GNL error.");
+		ft_printerr(p->exe, "stdin", ERR_GNL);
 		return (NULL);
 	}
 	return (line);

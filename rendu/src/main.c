@@ -2,8 +2,9 @@
 #include "input.h"
 #include "output.h"
 
-static void init_params(t_params *params)
+static void init_params(t_params *params, char *exe)
 {
+	params->exe = exe;
 	params->pos = -1;
 	params->stdin = FALSE;
 	params->opt_p = FALSE;
@@ -21,10 +22,7 @@ static void	ft_checksum(char *file, char *src, t_params *params)
 	char		*checksum;
 
 	if (src == NULL)
-	{
-		ft_printerr("Error: no source.");
 		return ;
-	}
 	checksum = params->cmd.fn(src, params->file_size);
 	ft_print_hash(checksum, file == NULL ? src : file, params);
 	ft_strdel(&checksum);
@@ -35,29 +33,30 @@ static void	ft_checksum(char *file, char *src, t_params *params)
 	}
 }
 
-static void ft_get_checksums(const int ac, char **av, t_params *params)
+static bool ft_get_checksums(const int ac, char **av, t_params *params)
 {
 	char		*src;
 
 	if (params->pos == ac && params->opt_s == TRUE)
 	{
-		ft_printerr(ERR_OPT_S);
-		return ;
+		ft_printerr(params->exe, NULL, ERR_OPT_S);
+		return (FALSE);
 	}
 	if (params->pos == ac || params->stdin == TRUE)
 	{
-		src = ft_read_stdin(&(params->file_size));
+		src = ft_read_stdin(params);
 		ft_checksum(NULL, src, params);
 		params->stdin = FALSE;
 	}
 	while (params->pos < ac)
 	{
 		src = params->opt_s == TRUE ? av[params->pos]
-			: ft_read_file(av[params->pos], &(params->file_size));
+			: ft_read_file(av[params->pos], params);
         ft_checksum(av[params->pos], src, params);
         params->opt_s = FALSE;
 		params->pos++;
 	}
+	return (TRUE);
 }
 
 int	main(int ac, char **av) {
@@ -68,8 +67,10 @@ int	main(int ac, char **av) {
 		ft_print(USAGE, TRUE);
 		return (0);
 	}
-	init_params(&params);
-	ft_ssl_parse((const int)ac, (const char **)av, &params);
-	ft_get_checksums((const int)ac, av, &params);
+	init_params(&params, av[0]);
+	if (ft_ssl_parse((const int)ac, (const char **)av, &params) == FALSE)
+		return (1);
+	if (ft_get_checksums((const int)ac, av, &params) == FALSE)
+		return (1);
 	return (0);
 }

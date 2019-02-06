@@ -18,7 +18,7 @@ static void	ft_pad_src(t_sha256 *context, const char *src)
 	context->src = (char *)ft_memalloc(padded_len);
 	if (context->src == NULL)
 	{
-		ft_printerr("ERROR: could not allocate.");
+		ft_printerr(NULL, NULL, "ERROR: could not allocate.");
 		return ;
 	}
 	ft_memcpy(context->src, src, context->len);

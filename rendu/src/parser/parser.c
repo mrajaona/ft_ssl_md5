@@ -30,7 +30,7 @@ static bool check_opts(const int ac, const char **av, t_params *params)
 				set_opt(av[params->pos][j], params);
 			else
 			{
-				ft_printerr(ERR_FLAG);
+				ft_printerr(params->exe, av[params->pos], ERR_FLAG);
 				return (FALSE);
 			}
 			j++;
@@ -48,7 +48,7 @@ static void init_lists(t_cmd *cmd_list)
 	cmd_list[1].fn = ft_sha256;
 }
 
-static bool check_cmd(const char *arg, t_cmd *cmd)
+static bool check_cmd(const char **av, t_cmd *cmd)
 {
 	t_cmd			cmd_list[N_CMDS];
 	unsigned int	i;
@@ -57,7 +57,7 @@ static bool check_cmd(const char *arg, t_cmd *cmd)
 	i = 0;
 	while (i < N_CMDS)
 	{
-		if (ft_strcmp(arg, cmd_list[i].name) == 0)
+		if (ft_strcmp(av[1], cmd_list[i].name) == 0)
 		{
 			cmd->name = cmd_list[i].name;
 			cmd->fn = cmd_list[i].fn;
@@ -65,15 +65,16 @@ static bool check_cmd(const char *arg, t_cmd *cmd)
 		}
 		i++;
 	}
-	ft_printerr(ERR_CMD);
+	ft_printerr(av[0], av[1], ERR_CMD);
 	return (FALSE);
 }
 
-void ft_ssl_parse(const int ac, const char **av, t_params *params)
+bool ft_ssl_parse(const int ac, const char **av, t_params *params)
 {
-	if (check_cmd(av[1], &(params->cmd)) == FALSE
+	if (check_cmd(av, &(params->cmd)) == FALSE
 		|| check_opts(ac, av, params) == FALSE
 		|| params->cmd.name == NULL
 		|| params->cmd.fn == NULL)
-		return ;
+		return (FALSE);
+	return (TRUE);
 }

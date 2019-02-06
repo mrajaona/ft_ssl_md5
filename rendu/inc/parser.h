@@ -16,6 +16,6 @@ typedef char	byte;
 **	Functions
 */
 
-void	ft_ssl_parse(const int ac, const char **av, t_params *p);
+bool	ft_ssl_parse(const int ac, const char **av, t_params *p);
 
 #endif
