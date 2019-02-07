@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   md5.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrajaona <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/07 10:28:09 by mrajaona          #+#    #+#             */
+/*   Updated: 2019/02/07 10:28:10 by mrajaona         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "md5.h"
 
 static void			calculate(t_md5 *context)
@@ -23,7 +35,7 @@ static void			calculate(t_md5 *context)
 	}
 }
 
-char	*ft_md5(const char *src, size_t size)
+char				*ft_md5(const char *src, size_t size)
 {
 	t_md5	context;
 

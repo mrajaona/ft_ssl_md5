@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   output.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrajaona <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/07 10:06:44 by mrajaona          #+#    #+#             */
+/*   Updated: 2019/02/07 10:06:47 by mrajaona         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef OUTPUT_H
 # define OUTPUT_H
 
@@ -20,8 +32,8 @@
 **	Functions
 */
 
-void	ft_usage( void );
-void	ft_print(const char *str, bool endline);
+void	ft_usage(void);
+void	ft_print(const char *str, t_bool endline);
 void	ft_printerr(const char *exe, const char *arg, const char *str);
 void	ft_print_console(const char *hash, const char *src, t_params *p);
 void	ft_print_hash(const char *str, const char *src, t_params *p);

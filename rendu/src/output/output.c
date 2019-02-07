@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   output.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrajaona <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/07 10:16:22 by mrajaona          #+#    #+#             */
+/*   Updated: 2019/02/07 10:16:23 by mrajaona         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "output.h"
 
-void	ft_print(const char *str, bool endline)
+void	ft_print(const char *str, t_bool endline)
 {
 	if (str != NULL)
 		write(STDOUT, str, ft_strlen(str));

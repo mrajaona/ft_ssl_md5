@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrajaona <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/07 10:15:42 by mrajaona          #+#    #+#             */
+/*   Updated: 2019/02/07 10:15:43 by mrajaona         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "md5.h"
 
 /*
 ** start padding 1 bit of value '1'
 ** end padding with 64 bits representing the source size
 ** complete with 0 until total is a multiple of 512 bits
-**
 */
 
 static void	ft_pad_src(t_md5 *context, const char *src)

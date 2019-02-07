@@ -1,19 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_hash.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrajaona <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/07 10:16:32 by mrajaona          #+#    #+#             */
+/*   Updated: 2019/02/07 10:16:33 by mrajaona         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "output.h"
 
-static void print_opt_p(const char *hash, const char *src, t_params *params)
+static void	print_opt_p(const char *hash, const char *src, t_params *params)
 {
-	ft_print(src, TRUE);
+	ft_print(src, FALSE);
 	ft_print(hash, TRUE);
-	params->stdin = FALSE;
+	params->std_in = FALSE;
 	params->opt_p = FALSE;
 }
 
-static void print_opt_r(const char *hash, const char *src, t_params *params)
+static void	print_opt_r(const char *hash, const char *src, t_params *params)
 {
 	ft_print(hash, FALSE);
-	ft_print(params->stdin == FALSE
+	ft_print(params->std_in == FALSE
 		&& params->opt_s == TRUE ? " \"" : " ", FALSE);
-	if  (params->stdin == FALSE && params->opt_s == TRUE)
+	if (params->std_in == FALSE && params->opt_s == TRUE)
 	{
 		ft_print(src, FALSE);
 		ft_print("\"", TRUE);
@@ -22,18 +34,18 @@ static void print_opt_r(const char *hash, const char *src, t_params *params)
 		ft_print(src, TRUE);
 }
 
-static void print_no_opt(const char *hash, const char *src, t_params *params)
+static void	print_no_opt(const char *hash, const char *src, t_params *params)
 {
 	ft_print((const char *)params->cmd.name, FALSE);
-	ft_print(params->stdin == FALSE
+	ft_print(params->std_in == FALSE
 		&& params->opt_s == TRUE ? "(\"" : "(", FALSE);
 	ft_print(src, FALSE);
-	ft_print(params->stdin == FALSE
+	ft_print(params->std_in == FALSE
 		&& params->opt_s == TRUE ? "\")= " : ")= ", FALSE);
 	ft_print(hash, TRUE);
 }
 
-void	ft_print_hash(const char *hash, const char *src, t_params *params)
+void		ft_print_hash(const char *hash, const char *src, t_params *params)
 {
 	if (hash == NULL || src == NULL || params == NULL)
 		return ;

@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrajaona <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/07 10:16:48 by mrajaona          #+#    #+#             */
+/*   Updated: 2019/02/07 10:16:49 by mrajaona         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
-static void set_opt(const char opt, t_params *params)
+static void		set_opt(const char opt, t_params *params)
 {
 	if (opt == 'p')
 	{
 		params->opt_p = TRUE;
-		params->stdin = TRUE;
+		params->std_in = TRUE;
 	}
 	else if (opt == 'q')
 		params->opt_q = TRUE;
@@ -15,7 +27,7 @@ static void set_opt(const char opt, t_params *params)
 		params->opt_s = TRUE;
 }
 
-static bool check_opts(const int ac, const char **av, t_params *params)
+static t_bool	check_opts(const int ac, const char **av, t_params *params)
 {
 	unsigned int j;
 
@@ -40,7 +52,7 @@ static bool check_opts(const int ac, const char **av, t_params *params)
 	return (TRUE);
 }
 
-static void init_lists(t_cmd *cmd_list)
+static void		init_lists(t_cmd *cmd_list)
 {
 	cmd_list[0].name = "md5";
 	cmd_list[0].fn = ft_md5;
@@ -48,7 +60,7 @@ static void init_lists(t_cmd *cmd_list)
 	cmd_list[1].fn = ft_sha256;
 }
 
-static bool check_cmd(const char **av, t_cmd *cmd)
+static t_bool	check_cmd(const char **av, t_cmd *cmd)
 {
 	t_cmd			cmd_list[N_CMDS];
 	unsigned int	i;
@@ -61,7 +73,7 @@ static bool check_cmd(const char **av, t_cmd *cmd)
 		{
 			cmd->name = cmd_list[i].name;
 			cmd->fn = cmd_list[i].fn;
-			return (TRUE) ;
+			return (TRUE);
 		}
 		i++;
 	}
@@ -69,7 +81,7 @@ static bool check_cmd(const char **av, t_cmd *cmd)
 	return (FALSE);
 }
 
-bool ft_ssl_parse(const int ac, const char **av, t_params *params)
+t_bool			ft_ssl_parse(const int ac, const char **av, t_params *params)
 {
 	if (check_cmd(av, &(params->cmd)) == FALSE
 		|| check_opts(ac, av, params) == FALSE

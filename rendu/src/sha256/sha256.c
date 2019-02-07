@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sha256.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrajaona <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/07 10:17:32 by mrajaona          #+#    #+#             */
+/*   Updated: 2019/02/07 10:17:33 by mrajaona         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sha256.h"
 
-static void update_hash(t_calc_sha256 *calc, unsigned int hash[8])
+static void	update_hash(t_calc_sha256 *calc, unsigned int hash[8])
 {
 	hash[0] = calc->a + hash[0];
 	hash[1] = calc->b + hash[1];
@@ -29,7 +41,7 @@ static void	calculate(t_sha256 *context)
 	}
 }
 
-char	*ft_sha256(const char *src, size_t size)
+char		*ft_sha256(const char *src, size_t size)
 {
 	t_sha256	context;
 

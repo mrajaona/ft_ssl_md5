@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrajaona <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/07 10:07:24 by mrajaona          #+#    #+#             */
+/*   Updated: 2019/02/07 10:07:27 by mrajaona         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSER_H
 # define PARSER_H
 
@@ -7,8 +19,6 @@
 # include "md5.h"
 # include "sha256.h"
 
-typedef char	byte;
-
 # define TRUE 1
 # define FALSE 0
 
@@ -16,6 +26,6 @@ typedef char	byte;
 **	Functions
 */
 
-bool	ft_ssl_parse(const int ac, const char **av, t_params *p);
+t_bool			ft_ssl_parse(const int ac, const char **av, t_params *p);
 
 #endif

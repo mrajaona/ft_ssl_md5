@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   calc_loop.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrajaona <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/07 10:17:07 by mrajaona          #+#    #+#             */
+/*   Updated: 2019/02/07 10:17:07 by mrajaona         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "sha256.h"
 
 const unsigned int	g_sha256_const_table[64] = {
@@ -14,7 +26,7 @@ const unsigned int	g_sha256_const_table[64] = {
 	0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
 };
 
-static void	calc_tmp(unsigned int tmp[5], t_calc_sha256 *calc, size_t i)
+static void			calc_tmp(unsigned int tmp[6], t_calc_sha256 *calc, size_t i)
 {
 	tmp[0] = (right_rot(calc->e, 6)) ^ (right_rot(calc->e, 11))
 		^ (right_rot(calc->e, 25));
@@ -27,10 +39,10 @@ static void	calc_tmp(unsigned int tmp[5], t_calc_sha256 *calc, size_t i)
 	tmp[5] = tmp[3] + tmp[4];
 }
 
-void	sha256_calc_loop(t_calc_sha256 *calc)
+void				sha256_calc_loop(t_calc_sha256 *calc)
 {
-	unsigned int	tmp[5];
-	size_t	i;
+	unsigned int	tmp[6];
+	size_t			i;
 
 	i = 0;
 	while (i < 64)

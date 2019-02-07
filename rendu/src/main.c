@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrajaona <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/07 10:14:48 by mrajaona          #+#    #+#             */
+/*   Updated: 2019/02/07 10:14:52 by mrajaona         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 #include "input.h"
 #include "output.h"
 
-static void init_params(t_params *params, char *exe)
+static void		init_params(t_params *params, char *exe)
 {
 	params->exe = exe;
 	params->pos = -1;
-	params->stdin = FALSE;
+	params->std_in = FALSE;
 	params->opt_p = FALSE;
 	params->opt_q = FALSE;
 	params->opt_r = FALSE;
@@ -16,8 +28,7 @@ static void init_params(t_params *params, char *exe)
 	params->file_size = 0;
 }
 
-
-static void	ft_checksum(char *file, char *src, t_params *params)
+static void		ft_checksum(char *file, char *src, t_params *params)
 {
 	char		*checksum;
 
@@ -26,14 +37,14 @@ static void	ft_checksum(char *file, char *src, t_params *params)
 	checksum = params->cmd.fn(src, params->file_size);
 	ft_print_hash(checksum, file == NULL ? src : file, params);
 	ft_strdel(&checksum);
-	if (params->stdin == TRUE || params->opt_s == FALSE)
+	if (params->std_in == TRUE || params->opt_s == FALSE)
 	{
 		ft_strdel(&src);
 		params->file_size = 0;
 	}
 }
 
-static bool ft_get_checksums(const int ac, char **av, t_params *params)
+static t_bool	ft_get_checksums(const int ac, char **av, t_params *params)
 {
 	char		*src;
 
@@ -42,24 +53,25 @@ static bool ft_get_checksums(const int ac, char **av, t_params *params)
 		ft_printerr(params->exe, NULL, ERR_OPT_S);
 		return (FALSE);
 	}
-	if (params->pos == ac || params->stdin == TRUE)
+	if (params->pos == ac || params->std_in == TRUE)
 	{
 		src = ft_read_stdin(params);
 		ft_checksum(NULL, src, params);
-		params->stdin = FALSE;
+		params->std_in = FALSE;
 	}
 	while (params->pos < ac)
 	{
 		src = params->opt_s == TRUE ? av[params->pos]
 			: ft_read_file(av[params->pos], params);
-        ft_checksum(av[params->pos], src, params);
-        params->opt_s = FALSE;
+		ft_checksum(av[params->pos], src, params);
+		params->opt_s = FALSE;
 		params->pos++;
 	}
 	return (TRUE);
 }
 
-int	main(int ac, char **av) {
+int				main(int ac, char **av)
+{
 	t_params	params;
 
 	if (ac == 1)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rounds.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrajaona <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/07 10:15:54 by mrajaona          #+#    #+#             */
+/*   Updated: 2019/02/07 10:15:55 by mrajaona         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "md5.h"
 
 /*
@@ -25,71 +37,62 @@ const unsigned int	g_md5_const_table[64] = {
 	0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391
 };
 
-const unsigned int	g_md5_const_f[4] = {7, 12, 17, 22};
-const unsigned int	g_md5_const_g[4] = {5, 9, 14, 20};
-const unsigned int	g_md5_const_h[4] = {4, 11, 16, 23};
-const unsigned int	g_md5_const_i[4] = {6, 10, 15, 21};
-
 unsigned int		md5_round_f(t_calc_md5 *calc, unsigned int j)
 {
-	unsigned int	w;
-	unsigned int	ret;
+	unsigned int				w;
+	unsigned int				ret;
+	static const unsigned int	md5_const_f[4] = {7, 12, 17, 22};
 
 	w = (1 * j + 0) % 16;
 	calc->word = *((unsigned int *)(calc->chunk) + w);
-
 	ret = (calc->b & calc->c) | (~(calc->b) & calc->d);
 	ret = left_rot(ret + calc->a + g_md5_const_table[j] + calc->word,
-		g_md5_const_f[j % 4]);
+		md5_const_f[j % 4]);
 	ret = calc->b + ret;
-
 	return (ret);
 }
 
 unsigned int		md5_round_g(t_calc_md5 *calc, unsigned int j)
 {
-	unsigned int	w;
-	unsigned int	ret;
+	unsigned int				w;
+	unsigned int				ret;
+	static const unsigned int	md5_const_g[4] = {5, 9, 14, 20};
 
 	w = (5 * j + 1) % 16;
 	calc->word = *((unsigned int *)(calc->chunk) + w);
-
 	ret = (calc->d & calc->b) | (~(calc->d) & calc->c);
 	ret = left_rot(ret + calc->a + g_md5_const_table[j] + calc->word,
-		g_md5_const_g[j % 4]);
+		md5_const_g[j % 4]);
 	ret = calc->b + ret;
-
 	return (ret);
 }
 
 unsigned int		md5_round_h(t_calc_md5 *calc, unsigned int j)
 {
-	unsigned int	w;
-	unsigned int	ret;
+	unsigned int				w;
+	unsigned int				ret;
+	static const unsigned int	md5_const_h[4] = {4, 11, 16, 23};
 
 	w = (3 * j + 5) % 16;
 	calc->word = *((unsigned int *)(calc->chunk) + w);
-
 	ret = (calc->b ^ calc->c ^ calc->d);
 	ret = left_rot(ret + calc->a + g_md5_const_table[j] + calc->word,
-		g_md5_const_h[j % 4]);
+		md5_const_h[j % 4]);
 	ret = calc->b + ret;
-
 	return (ret);
 }
 
 unsigned int		md5_round_i(t_calc_md5 *calc, unsigned int j)
 {
-	unsigned int	w;
-	unsigned int	ret;
+	unsigned int				w;
+	unsigned int				ret;
+	static const unsigned int	md5_const_i[4] = {6, 10, 15, 21};
 
 	w = (7 * j) % 16;
 	calc->word = *((unsigned int *)(calc->chunk) + w);
-
 	ret = (calc->c ^ (calc->b | ~(calc->d)));
 	ret = left_rot(ret + calc->a + g_md5_const_table[j] + calc->word,
-		g_md5_const_i[j % 4]);
+		md5_const_i[j % 4]);
 	ret = calc->b + ret;
-
 	return (ret);
 }

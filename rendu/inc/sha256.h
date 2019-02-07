@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sha256.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrajaona <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/07 10:09:39 by mrajaona          #+#    #+#             */
+/*   Updated: 2019/02/07 10:09:41 by mrajaona         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SHA256_H
 # define SHA256_H
 
@@ -31,10 +43,12 @@ typedef struct			s_calc_sha256
 **	Functions
 */
 
-char	*ft_sha256(const char *src, size_t size);
-void	sha256_init(t_sha256 *context, const char *src, size_t size);
-void	sha256_init_calc(t_calc_sha256 *calc, unsigned int hash[8]);
-void	sha256_calc_loop(t_calc_sha256 *calc);
-char	*sha256_tostr(unsigned int hash[8]);
+char					*ft_sha256(const char *src, size_t size);
+void					sha256_init(t_sha256 *context, const char *src,
+							size_t size);
+void					sha256_init_calc(t_calc_sha256 *calc,
+							unsigned int hash[8]);
+void					sha256_calc_loop(t_calc_sha256 *calc);
+char					*sha256_tostr(unsigned int hash[8]);
 
 #endif

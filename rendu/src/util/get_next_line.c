@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarra <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mrajaona <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/16 10:04:33 by jcarra            #+#    #+#             */
-/*   Updated: 2016/11/17 09:01:23 by jcarra           ###   ########.fr       */
+/*   Created: 2019/02/07 10:36:42 by mrajaona          #+#    #+#             */
+/*   Updated: 2019/02/07 10:36:54 by mrajaona         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ int			get_next_line(int const fd, char **line, size_t *size)
 	gnl.old_size = 0;
 	gnl.rd = 1;
 	gnl.ret = 0;
-
 	ft_get_next_line(&gnl, &(*line));
 	*size = gnl.size;
 	return (gnl.ret);

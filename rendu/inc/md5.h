@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   md5.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrajaona <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/07 10:05:24 by mrajaona          #+#    #+#             */
+/*   Updated: 2019/02/07 10:05:28 by mrajaona         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MD5_H
 # define MD5_H
 
@@ -27,12 +39,12 @@ typedef struct			s_calc_md5
 **	Functions
 */
 
-char            *ft_md5(const char *src, size_t size);
-void	        md5_init(t_md5 *context, const char *src, size_t size);
-void            md5_calc_loop(t_calc_md5 *calc);
-unsigned int	md5_round_f(t_calc_md5 *calc, unsigned int j);
-unsigned int	md5_round_g(t_calc_md5 *calc, unsigned int j);
-unsigned int	md5_round_h(t_calc_md5 *calc, unsigned int j);
-unsigned int	md5_round_i(t_calc_md5 *calc, unsigned int j);
-char	        *md5_tostr(unsigned int hash[4]);
+char					*ft_md5(const char *src, size_t size);
+void					md5_init(t_md5 *context, const char *src, size_t size);
+void					md5_calc_loop(t_calc_md5 *calc);
+unsigned int			md5_round_f(t_calc_md5 *calc, unsigned int j);
+unsigned int			md5_round_g(t_calc_md5 *calc, unsigned int j);
+unsigned int			md5_round_h(t_calc_md5 *calc, unsigned int j);
+unsigned int			md5_round_i(t_calc_md5 *calc, unsigned int j);
+char					*md5_tostr(unsigned int hash[4]);
 #endif
